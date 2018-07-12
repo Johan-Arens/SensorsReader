@@ -46,18 +46,23 @@ if not configOK:
 print "Will loop every " + str(Refresh) + " sec for 60 sec"
 t_end = time.time() + 59
 
-while time.time() < t_end:  
+
+def SensorWorker(SensorName, SensorLocation,SensorAddress,SensorType)
+   global SensorReader_Name
+   global SensorReader_Location
+   global Led_Pin
+   global MQTTPublishPath
+   global MQTT_Host
+   global MQTT_Pass
+   global MQTT_Path_Prepend
+   global MQTT_Port
+   global MQTT_User
+   global Refresh
+
+   t_end = time.time() + 59
+   while time.time() < t_end:
      current = 1
      
-     while current <= len(configReadJson['Sensors']):
-          
-          logList = ['Errors and Logs']
-          #logList = ["Starting"]
-          #logList.append = "Starting ..." 
-          print "Sensor " + str(current) + " Name: " + configReadJson['Sensors'][str(current)]['Sensor_Name']
-          print "Sensor " + str(current) + " Location: " + configReadJson['Sensors'][str(current)]['Sensor_Location']
-          print "Sensor " + str(current) + " Address: " + configReadJson['Sensors'][str(current)]['Sensor_Address']
-          print "Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type']
 
           
 
@@ -75,31 +80,31 @@ while time.time() < t_end:
           SensorType=""
           outputJson=""
           
-          if SensorTable['Sensors'][str(current)]['Sensor_Type'] == "DHT22":
+          if SensorType == "DHT22":
              ShortSensorType = 22
              try:
-                humidity, temperature = Adafruit_DHT.read_retry(ShortSensorType, int(SensorTable['Sensors'][str(current)]['Sensor_Address']))    
+                humidity, temperature = Adafruit_DHT.read_retry(ShortSensorType, int(SensorAddress))
              except:
-               print "DHT " + int(SensorTable['Sensors'][str(current)]['Sensor_Address']) + "timeout - no value"
+               print "DHT " + int(SensorAddress) + "timeout - no value"
                
              if humidity is None and temperature is None:
                print "no value returned on dht"
              else:
                 #print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
                 outputJson=json.dumps({
-                   "Sensor_Name": SensorTable['Sensors'][str(current)]['Sensor_Name'],
-                   "Sensor_Address": SensorTable['Sensors'][str(current)]['Sensor_Address'],
-                   "Sensor_Location": SensorTable['Sensors'][str(current)]['Sensor_Location'],
-                   "Sensor_Type": SensorTable['Sensors'][str(current)]['Sensor_Type'],
+                   "Sensor_Name": SensorName,
+                   "Sensor_Address": SensorAddress,
+                   "Sensor_Location": SensorLocation,
+                   "Sensor_Type": SensorType,
                    "Temperature": temperature,
                    "Humidity": humidity,
                    "Timestamp": int(time.time())
                 })  
 
-          if SensorTable['Sensors'][str(current)]['Sensor_Type'] == "1-Wire":
+          if SensorType == "1-Wire":
              print "Trying 1-wire..."
              try:
-               SensorDataFile = oneWirePath + configReadJson['Sensors'][str(current)]['Sensor_Address'] + "/w1_slave"
+               SensorDataFile = oneWirePath + SensorAddress + "/w1_slave"
                with open(SensorDataFile ,'r') as SensorDataFileRead:
                 SensorDataRead = SensorDataFileRead.readlines()
                 SensorDataFileRead.close()
@@ -112,37 +117,37 @@ while time.time() < t_end:
                   SensorDataReadLines += 1
                     
              except:
-               print "Can't read 1-Wire probe " + configReadJson['Sensors'][str(current)]['Sensor_Address'] + " - Verify config"
+               print "Can't read 1-Wire probe " + SensorAddress + " - Verify config"
              if temperature is None:
                print "no value returned on 1-wire"
              else:
                 #print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
                 outputJson=json.dumps({
-                   "Sensor_Name": SensorTable['Sensors'][str(current)]['Sensor_Name'],
-                   "Sensor_Address": SensorTable['Sensors'][str(current)]['Sensor_Address'],
-                   "Sensor_Location": SensorTable['Sensors'][str(current)]['Sensor_Location'],
-                   "Sensor_Type": SensorTable['Sensors'][str(current)]['Sensor_Type'],
+                   "Sensor_Name": SensorName,
+                   "Sensor_Address": SensorAddress,
+                   "Sensor_Location": SensorLocation,
+                   "Sensor_Type": SensorType,
                    "Temperature": temperature,
                    "Timestamp": int(time.time())
                 })  
   
 
-          if SensorTable['Sensors'][str(current)]['Sensor_Type'] == "DryContact":
+          if SensorType == "DryContact":
              DryContact = ""
-             GPIO.setup(int(SensorTable['Sensors'][str(current)]['Sensor_Address']), GPIO.IN, pull_up_down=GPIO.PUD_UP)
-             if GPIO.input(int(SensorTable['Sensors'][str(current)]['Sensor_Address'])):
+             GPIO.setup(int(SensorAddress), GPIO.IN, pull_up_down=GPIO.PUD_UP)
+             if GPIO.input(int(SensorAddress)):
                  DryContact = "OPEN"
              else:
                  DryContact = "CLOSED"     
              try:
-               if int(SensorTable['Sensors'][str(current)]['Sensor_Address']) < 41:
-                 GPIO.setup(int(SensorTable['Sensors'][str(current)]['Sensor_Address']), GPIO.IN, pull_up_down=GPIO.PUD_UP)
-                 if GPIO.input(int(SensorTable['Sensors'][str(current)]['Sensor_Address'])):
+               if int(SensorAddress]) < 41:
+                 GPIO.setup(SensorAddress]), GPIO.IN, pull_up_down=GPIO.PUD_UP)
+                 if GPIO.input(SensorAddress)):
                    DryContact = "OPEN"
                  else:
                    DryContact = "CLOSED"          
              except:
-               print "DryContact " + str(int(SensorTable['Sensors'][str(current)]['Sensor_Address'])) + "timeout - no value"
+               print "DryContact " + str(SensorAddress)) + "timeout - no value"
                DryContact = "Error"
              if DryContact is None:
                print "no value returned on DryContact"
@@ -150,10 +155,10 @@ while time.time() < t_end:
              else:
                 #print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
                 outputJson=json.dumps({
-                   "Sensor_Name": SensorTable['Sensors'][str(current)]['Sensor_Name'],
-                   "Sensor_Address": SensorTable['Sensors'][str(current)]['Sensor_Address'],
-                   "Sensor_Location": SensorTable['Sensors'][str(current)]['Sensor_Location'],
-                   "Sensor_Type": SensorTable['Sensors'][str(current)]['Sensor_Type'],
+                    "Sensor_Name": SensorName,
+                    "Sensor_Address": SensorAddress,
+                    "Sensor_Location": SensorLocation,
+                    "Sensor_Type": SensorType,
                    "DryContactStatus": DryContact,
                    "Timestamp": int(time.time())
                 })  
@@ -170,8 +175,8 @@ while time.time() < t_end:
             MQTT_Path_Prepend = MQTT_Path_Prepend + "/"
           MQTTPublishPath = MQTT_Path_Prepend   + SensorReader_Name + "/"
           MQTTPublishPath = MQTTPublishPath     + SensorReader_Location + "/"
-          MQTTPublishPath = MQTTPublishPath     + SensorTable['Sensors'][str(current)]['Sensor_Name'] + "/"
-          MQTTPublishPath = MQTTPublishPath     + SensorTable['Sensors'][str(current)]['Sensor_Location'] + "/json"
+          MQTTPublishPath = MQTTPublishPath     + SensorName + "/"
+          MQTTPublishPath = MQTTPublishPath     + SensorLocation + "/json"
 
           try:
               if (MQTT_User is not None and MQTT_Pass is not None):
@@ -191,4 +196,19 @@ while time.time() < t_end:
           GPIO.output(Led_Pin, True)
           GPIO.output(Led_Pin, False)
           current +=1
-     time.sleep(Refresh)
+        time.sleep(Refresh)
+
+while current <= len(configReadJson['Sensors']):
+    logList = ['Errors and Logs']
+    # logList = ["Starting"]
+    # logList.append = "Starting ..."
+    print "Sensor " + str(current) + " Name: " + configReadJson['Sensors'][str(current)]['Sensor_Name']
+    print "Sensor " + str(current) + " Location: " + configReadJson['Sensors'][str(current)]['Sensor_Location']
+    print "Sensor " + str(current) + " Address: " + configReadJson['Sensors'][str(current)]['Sensor_Address']
+    print "Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type']
+    SensorWorker(
+        configReadJson['Sensors'][str(current)]['Sensor_Name'],
+        configReadJson['Sensors'][str(current)]['Sensor_Location'],
+        configReadJson['Sensors'][str(current)]['Sensor_Address'],
+        configReadJson['Sensors'][str(current)]['Sensor_Type']
+    )
