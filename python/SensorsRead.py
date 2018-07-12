@@ -14,6 +14,7 @@ import paho.mqtt.client as mqtt
 import os.path
 import RPi.GPIO as GPIO
 import time
+import multiprocessing
 
 
 configOK = False
