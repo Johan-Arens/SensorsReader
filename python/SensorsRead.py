@@ -47,7 +47,7 @@ print "Will loop every " + str(Refresh) + " sec for 60 sec"
 t_end = time.time() + 59
 
 
-def SensorWorker(SensorName, SensorLocation,SensorAddress,SensorType)
+def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType):
    global SensorReader_Name
    global SensorReader_Location
    global Led_Pin
