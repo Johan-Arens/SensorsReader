@@ -61,107 +61,103 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType):
 
    t_end = time.time() + 59
    while time.time() < t_end:
-     current = 1
-     
+      current = 1
+      GPIO.setwarnings(False)
+      GPIO.setmode(GPIO.BCM)
 
-          
+      GPIO.setup(Led_Pin, GPIO.OUT)
+      GPIO.output(Led_Pin, True)
 
-          GPIO.setwarnings(False)
-          GPIO.setmode(GPIO.BCM)
 
-          GPIO.setup(Led_Pin, GPIO.OUT)
-          GPIO.output(Led_Pin, True)
 
-          
-          
-          #Turn on the Led
-          temperature = 0
-          humidity = 0
-          SensorType=""
-          outputJson=""
-          
-          if SensorType == "DHT22":
-             ShortSensorType = 22
-             try:
-                humidity, temperature = Adafruit_DHT.read_retry(ShortSensorType, int(SensorAddress))
-             except:
-               print "DHT " + int(SensorAddress) + "timeout - no value"
-               
-             if humidity is None and temperature is None:
-               print "no value returned on dht"
+      #Turn on the Led
+      temperature = 0
+      humidity = 0
+      SensorType=""
+      outputJson=""
+
+      if SensorType == "DHT22":
+         ShortSensorType = 22
+         try:
+            humidity, temperature = Adafruit_DHT.read_retry(ShortSensorType, int(SensorAddress))
+         except:
+           print "DHT " + int(SensorAddress) + "timeout - no value"
+
+         if humidity is None and temperature is None:
+           print "no value returned on dht"
+         else:
+            #print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
+            outputJson=json.dumps({
+               "Sensor_Name": SensorName,
+               "Sensor_Address": SensorAddress,
+               "Sensor_Location": SensorLocation,
+               "Sensor_Type": SensorType,
+               "Temperature": temperature,
+               "Humidity": humidity,
+               "Timestamp": int(time.time())
+            })
+
+      if SensorType == "1-Wire":
+         print "Trying 1-wire..."
+         try:
+           SensorDataFile = oneWirePath + SensorAddress + "/w1_slave"
+           with open(SensorDataFile ,'r') as SensorDataFileRead:
+            SensorDataRead = SensorDataFileRead.readlines()
+            SensorDataFileRead.close()
+            SensorDataReadLines=0
+            while SensorDataReadLines < len(SensorDataRead):
+              if "t=" in SensorDataRead[SensorDataReadLines]:
+                discard, temperature = SensorDataRead[SensorDataReadLines].split("t=")
+                temperature = float(temperature) / 1000.0
+                break
+              SensorDataReadLines += 1
+
+         except:
+           print "Can't read 1-Wire probe " + SensorAddress + " - Verify config"
+         if temperature is None:
+           print "no value returned on 1-wire"
+         else:
+            #print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
+            outputJson=json.dumps({
+               "Sensor_Name": SensorName,
+               "Sensor_Address": SensorAddress,
+               "Sensor_Location": SensorLocation,
+               "Sensor_Type": SensorType,
+               "Temperature": temperature,
+               "Timestamp": int(time.time())
+            })
+
+
+      if SensorType == "DryContact":
+         DryContact = ""
+         GPIO.setup(int(SensorAddress), GPIO.IN, pull_up_down=GPIO.PUD_UP)
+         if GPIO.input(int(SensorAddress)):
+             DryContact = "OPEN"
+         else:
+             DryContact = "CLOSED"
+         try:
+           if int(SensorAddress]) < 41:
+             GPIO.setup(SensorAddress]), GPIO.IN, pull_up_down=GPIO.PUD_UP)
+             if GPIO.input(SensorAddress)):
+               DryContact = "OPEN"
              else:
-                #print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
-                outputJson=json.dumps({
-                   "Sensor_Name": SensorName,
-                   "Sensor_Address": SensorAddress,
-                   "Sensor_Location": SensorLocation,
-                   "Sensor_Type": SensorType,
-                   "Temperature": temperature,
-                   "Humidity": humidity,
-                   "Timestamp": int(time.time())
-                })  
-
-          if SensorType == "1-Wire":
-             print "Trying 1-wire..."
-             try:
-               SensorDataFile = oneWirePath + SensorAddress + "/w1_slave"
-               with open(SensorDataFile ,'r') as SensorDataFileRead:
-                SensorDataRead = SensorDataFileRead.readlines()
-                SensorDataFileRead.close()
-                SensorDataReadLines=0
-                while SensorDataReadLines < len(SensorDataRead):
-                  if "t=" in SensorDataRead[SensorDataReadLines]:
-                    discard, temperature = SensorDataRead[SensorDataReadLines].split("t=")
-                    temperature = float(temperature) / 1000.0
-                    break
-                  SensorDataReadLines += 1
-                    
-             except:
-               print "Can't read 1-Wire probe " + SensorAddress + " - Verify config"
-             if temperature is None:
-               print "no value returned on 1-wire"
-             else:
-                #print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
-                outputJson=json.dumps({
-                   "Sensor_Name": SensorName,
-                   "Sensor_Address": SensorAddress,
-                   "Sensor_Location": SensorLocation,
-                   "Sensor_Type": SensorType,
-                   "Temperature": temperature,
-                   "Timestamp": int(time.time())
-                })  
-  
-
-          if SensorType == "DryContact":
-             DryContact = ""
-             GPIO.setup(int(SensorAddress), GPIO.IN, pull_up_down=GPIO.PUD_UP)
-             if GPIO.input(int(SensorAddress)):
-                 DryContact = "OPEN"
-             else:
-                 DryContact = "CLOSED"     
-             try:
-               if int(SensorAddress]) < 41:
-                 GPIO.setup(SensorAddress]), GPIO.IN, pull_up_down=GPIO.PUD_UP)
-                 if GPIO.input(SensorAddress)):
-                   DryContact = "OPEN"
-                 else:
-                   DryContact = "CLOSED"          
-             except:
-               print "DryContact " + str(SensorAddress)) + "timeout - no value"
-               DryContact = "Error"
-             if DryContact is None:
-               print "no value returned on DryContact"
-               DryContact = "Error"
-             else:
-                #print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
-                outputJson=json.dumps({
-                    "Sensor_Name": SensorName,
-                    "Sensor_Address": SensorAddress,
-                    "Sensor_Location": SensorLocation,
-                    "Sensor_Type": SensorType,
-                   "DryContactStatus": DryContact,
-                   "Timestamp": int(time.time())
-                })  
+               DryContact = "CLOSED"
+         except:
+           print "DryContact " + str(SensorAddress)) + "timeout - no value"
+           DryContact = "Error"
+         if DryContact is None:
+           print "no value returned on DryContact"
+           DryContact = "Error"
+         else:
+            #print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
+            outputJson=json.dumps({
+                "Sensor_Name": SensorName,
+                "Sensor_Address": SensorAddress,
+                "Sensor_Location": SensorLocation,
+                "Sensor_Type": SensorType,
+               "DryContactStatus": DryContact,
+               "Timestamp": int(time.time())
+            })
 
 
           GPIO.output(Led_Pin, False)
