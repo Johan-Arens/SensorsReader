@@ -137,7 +137,7 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType):
              DryContact = "CLOSED"
          try:
            if int(SensorAddress) < 41:
-             GPIO.setup(SensorAddress), GPIO.IN, pull_up_down=GPIO.PUD_UP)
+             GPIO.setup(int(SensorAddress), GPIO.IN, pull_up_down=GPIO.PUD_UP)
              if GPIO.input(SensorAddress)):
                DryContact = "OPEN"
              else:
