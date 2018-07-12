@@ -1,0 +1,1 @@
+{"Led_Pin": "18", "MQTT_Host": "3.3.3.3.", "Sensor_Name": "SensorsReaderDev2", "GPIO_Pin": "17", "MQTT_Port": "1883", "Sensor_Location": "fdsfds", "Sensor_Type": "DHT22", "Refresh": "30"}

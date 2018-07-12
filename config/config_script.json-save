@@ -1,0 +1,1 @@
+{"Led_Pin": "18", "MQTT_Host": "127.0.0.1", "MQTT_User": "", "SensorReader_Location": "Bureau", "MQTT_Pass": "", "MQTT_Port": "1883", "SensorReader_Name": "SensorsReaderDev2", "MQTT_Path_Prepend": "Sensors", "Sensors": {}, "Refresh": "10"}
