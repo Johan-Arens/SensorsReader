@@ -1,5 +1,9 @@
 #!/usr/bin/python
 #
+#  (c) Johan Arens
+#
+#
+#
 
 import sys
 import Adafruit_DHT
