@@ -165,7 +165,7 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType):
 
       GPIO.output(Led_Pin, True)
 
-      print outputJson
+
       if not MQTT_Path_Prepend.endswith('/'):
         MQTT_Path_Prepend = MQTT_Path_Prepend + "/"
       MQTTPublishPath = MQTT_Path_Prepend   + SensorReader_Name + "/"
@@ -185,6 +185,7 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType):
           time.sleep(2)
           GPIO.output(Led_Pin, True)
           time.sleep(2)
+          print "SensorData : " + outputJson
           print "Succefully published to MQTT - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath
           GPIO.output(Led_Pin, False)
       except:
