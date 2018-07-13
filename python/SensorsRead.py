@@ -190,10 +190,10 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType):
       except:
           print "Failed to publish to MQTT  - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath + " Username/pwd -" + MQTT_User + "-" + MQTT_Pass +"-"
 
-    GPIO.output(Led_Pin, True)
-    GPIO.output(Led_Pin, False)
-    current +=1
-    time.sleep(Refresh)
+      GPIO.output(Led_Pin, True)
+      GPIO.output(Led_Pin, False)
+      current +=1
+      time.sleep(Refresh)
 
 while current <= len(configReadJson['Sensors']):
     logList = ['Errors and Logs']
