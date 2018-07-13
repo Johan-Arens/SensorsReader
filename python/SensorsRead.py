@@ -196,6 +196,7 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType):
       time.sleep(Refresh)
 
 current = 1
+jobs = []
 while current <= len(configReadJson['Sensors']):
     logList = ['Errors and Logs']
     # logList = ["Starting"]
