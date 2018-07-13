@@ -142,7 +142,7 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType):
              else:
                DryContact = "CLOSED"
          except:
-           print "DryContact " + str(SensorAddress) + "timeout - no value"
+           print "DryContact " + str(SensorAddress) + " timeout - no value"
            DryContact = "Error"
          if DryContact is None:
            print "no value returned on DryContact"
