@@ -61,7 +61,7 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType):
 
    t_end = time.time() + 59
    while time.time() < t_end:
-      current = 1
+
       GPIO.setwarnings(False)
       GPIO.setmode(GPIO.BCM)
 
@@ -192,9 +192,10 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType):
 
       GPIO.output(Led_Pin, True)
       GPIO.output(Led_Pin, False)
-      current +=1
+
       time.sleep(Refresh)
 
+current = 1
 while current <= len(configReadJson['Sensors']):
     logList = ['Errors and Logs']
     # logList = ["Starting"]
@@ -209,3 +210,4 @@ while current <= len(configReadJson['Sensors']):
         configReadJson['Sensors'][str(current)]['Sensor_Address'],
         configReadJson['Sensors'][str(current)]['Sensor_Type']
     )
+    current += 1
