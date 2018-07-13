@@ -204,10 +204,12 @@ while current <= len(configReadJson['Sensors']):
     print "Sensor " + str(current) + " Location: " + configReadJson['Sensors'][str(current)]['Sensor_Location']
     print "Sensor " + str(current) + " Address: " + configReadJson['Sensors'][str(current)]['Sensor_Address']
     print "Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type']
-    SensorWorker(
+    p = multiprocessing.Process(target=SensorWorker, args=(
         configReadJson['Sensors'][str(current)]['Sensor_Name'],
         configReadJson['Sensors'][str(current)]['Sensor_Location'],
         configReadJson['Sensors'][str(current)]['Sensor_Address'],
         configReadJson['Sensors'][str(current)]['Sensor_Type']
-    )
+    ))
+    jobs.append(p)
+    p.start()
     current += 1
