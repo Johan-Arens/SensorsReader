@@ -160,38 +160,38 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType):
             })
 
 
+      GPIO.output(Led_Pin, False)
+
+
+
+      GPIO.output(Led_Pin, True)
+
+      print outputJson
+      if not MQTT_Path_Prepend.endswith('/'):
+        MQTT_Path_Prepend = MQTT_Path_Prepend + "/"
+      MQTTPublishPath = MQTT_Path_Prepend   + SensorReader_Name + "/"
+      MQTTPublishPath = MQTTPublishPath     + SensorReader_Location + "/"
+      MQTTPublishPath = MQTTPublishPath     + SensorName + "/"
+      MQTTPublishPath = MQTTPublishPath     + SensorLocation + "/json"
+
+      try:
+          if (MQTT_User is not None and MQTT_Pass is not None):
+            print "MQTT with auth"
+            publish.single(MQTTPublishPath, outputJson, hostname=MQTT_Host, port=MQTT_Port, client_id=SensorReader_Name, transport="tcp", auth = {'username':MQTT_User, 'password':MQTT_Pass}, qos=2)
+          else:
+            print "MQTT with no auth"
+            publish.single(MQTTPublishPath, outputJson, hostname=MQTT_Host, port=MQTT_Port, client_id=SensorReader_Name, transport="tcp", qos=2)
           GPIO.output(Led_Pin, False)
-
-          
-
+          time.sleep(2)
           GPIO.output(Led_Pin, True)
-
-          print outputJson
-          if not MQTT_Path_Prepend.endswith('/'):
-            MQTT_Path_Prepend = MQTT_Path_Prepend + "/"
-          MQTTPublishPath = MQTT_Path_Prepend   + SensorReader_Name + "/"
-          MQTTPublishPath = MQTTPublishPath     + SensorReader_Location + "/"
-          MQTTPublishPath = MQTTPublishPath     + SensorName + "/"
-          MQTTPublishPath = MQTTPublishPath     + SensorLocation + "/json"
-
-          try:
-              if (MQTT_User is not None and MQTT_Pass is not None):
-                print "MQTT with auth"
-                publish.single(MQTTPublishPath, outputJson, hostname=MQTT_Host, port=MQTT_Port, client_id=SensorReader_Name, transport="tcp", auth = {'username':MQTT_User, 'password':MQTT_Pass}, qos=2)
-              else:
-                print "MQTT with no auth"
-                publish.single(MQTTPublishPath, outputJson, hostname=MQTT_Host, port=MQTT_Port, client_id=SensorReader_Name, transport="tcp", qos=2)
-              GPIO.output(Led_Pin, False)
-              time.sleep(2)
-              GPIO.output(Led_Pin, True)
-              time.sleep(2)  
-              print "Succefully published to MQTT - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath
-              GPIO.output(Led_Pin, False)
-          except:
-              print "Failed to publish to MQTT  - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath + " Username/pwd -" + MQTT_User + "-" + MQTT_Pass +"-"
-          GPIO.output(Led_Pin, True)
+          time.sleep(2)
+          print "Succefully published to MQTT - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath
           GPIO.output(Led_Pin, False)
-          current +=1
+      except:
+          print "Failed to publish to MQTT  - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath + " Username/pwd -" + MQTT_User + "-" + MQTT_Pass +"-"
+      GPIO.output(Led_Pin, True)
+      GPIO.output(Led_Pin, False)
+      current +=1
         time.sleep(Refresh)
 
 while current <= len(configReadJson['Sensors']):
