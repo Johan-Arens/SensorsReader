@@ -192,7 +192,7 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType):
       GPIO.output(Led_Pin, True)
       GPIO.output(Led_Pin, False)
       current +=1
-        time.sleep(Refresh)
+    time.sleep(Refresh)
 
 while current <= len(configReadJson['Sensors']):
     logList = ['Errors and Logs']
