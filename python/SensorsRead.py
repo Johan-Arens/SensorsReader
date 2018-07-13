@@ -97,7 +97,7 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType):
             })
 
       if SensorType == "1-Wire":
-         print "Trying 1-wire..."
+         #print "Trying 1-wire..."
          try:
            SensorDataFile = oneWirePath + SensorAddress + "/w1_slave"
            with open(SensorDataFile ,'r') as SensorDataFileRead:
@@ -176,10 +176,10 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType):
 
       try:
           if (MQTT_User is not None and MQTT_Pass is not None):
-            print "MQTT with auth"
+            #print "MQTT with auth"
             publish.single(MQTTPublishPath, outputJson, hostname=MQTT_Host, port=MQTT_Port, client_id=client_id, transport="tcp", auth = {'username':MQTT_User, 'password':MQTT_Pass}, qos=2)
           else:
-            print "MQTT with no auth"
+            #print "MQTT with no auth"
             publish.single(MQTTPublishPath, outputJson, hostname=MQTT_Host, port=MQTT_Port, client_id=client_id, transport="tcp", qos=2)
           GPIO.output(Led_Pin, False)
           time.sleep(2)
