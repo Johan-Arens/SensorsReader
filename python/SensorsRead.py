@@ -138,12 +138,12 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType):
          try:
            if int(SensorAddress) < 41:
              GPIO.setup(int(SensorAddress), GPIO.IN, pull_up_down=GPIO.PUD_UP)
-             if GPIO.input(SensorAddress)):
+             if GPIO.input(SensorAddress):
                DryContact = "OPEN"
              else:
                DryContact = "CLOSED"
          except:
-           print "DryContact " + str(SensorAddress)) + "timeout - no value"
+           print "DryContact " + str(SensorAddress) + "timeout - no value"
            DryContact = "Error"
          if DryContact is None:
            print "no value returned on DryContact"
