@@ -73,7 +73,6 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType):
       #Turn on the Led
       temperature = 0
       humidity = 0
-      SensorType=""
       outputJson=""
 
       if SensorType == "DHT22":
