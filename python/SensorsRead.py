@@ -162,11 +162,11 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
           time.sleep(2)
           GPIO.output(Led_Pin, True)
           time.sleep(2)
-          PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type']) "SensorData : " + outputJson)
-          PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type']) "Succefully published to MQTT - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath)
+          PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type'] + "SensorData : " + outputJson)
+          PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type'] + "Succefully published to MQTT - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath)
           GPIO.output(Led_Pin, False)
       except:
-       PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type']) "Failed to publish to MQTT  - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath + " Username/pwd -" + MQTT_User + "-" + MQTT_Pass +"-")
+       PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type'] + "Failed to publish to MQTT  - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath + " Username/pwd -" + MQTT_User + "-" + MQTT_Pass +"-")
 
       GPIO.output(Led_Pin, True)
       GPIO.output(Led_Pin, False)
