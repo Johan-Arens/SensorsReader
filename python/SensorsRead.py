@@ -39,7 +39,7 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
        ThreadRefresh = Refresh
    ThreadRefresh = float(ThreadRefresh)
 
-   print "Thread " + SensorName + " will refresh every " + str(ThreadRefresh) + "\n"
+   PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type']) "Thread " + SensorName + " will refresh every " + str(ThreadRefresh) + "\n")
    t_end = time.time() + 59
    while time.time() < t_end:
 
@@ -119,10 +119,10 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
              else:
                DryContact = "CLOSED"
          except:
-           print "DryContact " + str(SensorAddress) + " timeout - no value"
+             PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type']) "DryContact " + str(SensorAddress) + " timeout - no value")
            DryContact = "Error"
          if DryContact is None:
-           print "no value returned on DryContact"
+             PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type']) "no value returned on DryContact")
            DryContact = "Error"
          else:
             #print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
@@ -162,11 +162,11 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
           time.sleep(2)
           GPIO.output(Led_Pin, True)
           time.sleep(2)
-          print "SensorData : " + outputJson
-          print "Succefully published to MQTT - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath
+          PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type']) "SensorData : " + outputJson)
+          PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type']) "Succefully published to MQTT - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath)
           GPIO.output(Led_Pin, False)
       except:
-          print "Failed to publish to MQTT  - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath + " Username/pwd -" + MQTT_User + "-" + MQTT_Pass +"-"
+       PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type']) "Failed to publish to MQTT  - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath + " Username/pwd -" + MQTT_User + "-" + MQTT_Pass +"-")
 
       GPIO.output(Led_Pin, True)
       GPIO.output(Led_Pin, False)
@@ -174,7 +174,7 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
       time.sleep(ThreadRefresh)
 
 def PrintThis (StringToPrint):
-   print str(datetime.datetime.now()) + " -  " + str(StringToPrint) + "\n"
+   print str(datetime.datetime.now()) + " - " + str(StringToPrint) + "\n"
 
 configOK = False
 oneWirePath = "/sys/bus/w1/devices/"
@@ -199,7 +199,7 @@ else:
      configOK = False
      
 if not configOK:
-     print "No valid config found"
+     PrintThis("No valid config found")
      exit(1)
 
 PrintThis ("Will loop every " + str(Refresh) + " sec for 60 sec")
@@ -215,10 +215,11 @@ while current <= len(configReadJson['Sensors']):
     logList = ['Errors and Logs']
     # logList = ["Starting"]
     # logList.append = "Starting ..."
-    print "Sensor " + str(current) + " Name: " + configReadJson['Sensors'][str(current)]['Sensor_Name']
-    print "Sensor " + str(current) + " Location: " + configReadJson['Sensors'][str(current)]['Sensor_Location']
-    print "Sensor " + str(current) + " Address: " + configReadJson['Sensors'][str(current)]['Sensor_Address']
-    print "Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type']
+    PrintThis( "Sensor " + str(current) + " Name: " + configReadJson['Sensors'][str(current)]['Sensor_Name'])
+    PrintThis( "Sensor " + str(current) + " Location: " + configReadJson['Sensors'][str(current)]['Sensor_Location'])
+    PrintThis( "Sensor " + str(current) + " Address: " + configReadJson['Sensors'][str(current)]['Sensor_Address'])
+    PrintThis( "Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type'])
+    PrintThis( "Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Refresh'])
     p = multiprocessing.Process(target=SensorWorker, args=(
         configReadJson['Sensors'][str(current)]['Sensor_Name'],
         configReadJson['Sensors'][str(current)]['Sensor_Location'],
