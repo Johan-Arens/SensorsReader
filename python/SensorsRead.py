@@ -119,10 +119,10 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
              else:
                DryContact = "CLOSED"
          except:
-             PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type']) "DryContact " + str(SensorAddress) + " timeout - no value")
+             PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type'] + "DryContact " + str(SensorAddress) + " timeout - no value")
            DryContact = "Error"
          if DryContact is None:
-             PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type']) "no value returned on DryContact")
+             PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type'] + "no value returned on DryContact")
            DryContact = "Error"
          else:
             #print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
