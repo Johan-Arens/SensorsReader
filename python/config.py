@@ -65,6 +65,7 @@ if bool(NewConfig) is True:
       ConfigDict['Sensors'][SensorNumber]['Sensor_Location']  = form.getvalue('Sensors[' + str(SensorNumber) +'][Sensor_Location]')
       ConfigDict['Sensors'][SensorNumber]['Sensor_Address']   = form.getvalue('Sensors[' + str(SensorNumber) +'][Sensor_Address]')
       ConfigDict['Sensors'][SensorNumber]['Sensor_Type']      = form.getvalue('Sensors[' + str(SensorNumber) +'][Sensor_Type]')
+      ConfigDict['Sensors'][SensorNumber]['Sensor_Refresh']   = form.getvalue('Sensors[' + str(SensorNumber) +'][Sensor_Refresh]')
     else:
        stop = True
     SensorNumber += 1
@@ -232,6 +233,7 @@ else:
       print "Sensor " + str(SensorNumber) + " Name : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Name]\" value = \"\"> <br>"
       print "Sensor " + str(SensorNumber) + " Location : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Location]\" value = \"\"> <br>"
       print "Sensor " + str(SensorNumber) + " Address : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Address]\" value = \"\"> <i>GPIO Pin or 1-Wire bus address</i><br>"
+      print "Sensor " + str(SensorNumber) + " Address : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Refresh]\" value = \"\"> <br>"
 
       print "Sensor Type : <select name = \"Sensors[" + str(SensorNumber) + "][Sensor_Type]\"> <option value \"\" selectedNone ></option><option value=\"DHT22\" selectedDHT22 >DHT22</option> <option value=\"1-Wire\" selected1wire >1-Wire</option></select> <br>"
       print "<br>"        
