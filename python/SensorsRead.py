@@ -127,7 +127,7 @@ def SensorWorker(SensorNumber, SensorName, SensorLocation, SensorAddress, Sensor
                 "Timestamp": int(time.time())
             })
 
-         PublishThis(outputJson, SensorNumber, SensorType)
+         PublishThis(outputJson, SensorNumber, SensorType, SensorName, SensorLocation)
 
 
 
@@ -137,7 +137,7 @@ def PrintThis (StringToPrint):
    print str(datetime.datetime.now()) + " - " + str(StringToPrint)
 
 
-def PublishThis (jsonData, SensorIndex, SensorType ):
+def PublishThis (jsonData, SensorIndex, SensorType SensorName, SensorLocation):
     global SensorReader_Name
     global SensorReader_Location
     global Led_Pin
