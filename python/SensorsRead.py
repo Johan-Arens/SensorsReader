@@ -99,7 +99,6 @@ def SensorWorker(SensorNumber, SensorName, SensorLocation, SensorAddress, Sensor
                "Timestamp": int(time.time())
             })
 
-
       if SensorType == "DryContact":
          DryContact = ""
 
@@ -146,7 +145,7 @@ def SensorWorker(SensorNumber, SensorName, SensorLocation, SensorAddress, Sensor
 def PrintThis (StringToPrint):
    print str(datetime.datetime.now()) + " - " + str(StringToPrint)
 
-def PublishThis (jsonData, SensorIndex, SensorType, SensorName, SensorLocation):
+def PublishThis (jsonData, SensorIndex, SensorTypePub, SensorNamePub, SensorLocationPub):
     global SensorReader_Name
     global SensorReader_Location
     global Led_Pin
@@ -169,8 +168,8 @@ def PublishThis (jsonData, SensorIndex, SensorType, SensorName, SensorLocation):
     MQTTPublishPath = MQTT_Path_Prepend + SensorReader_Name + "/"
     MQTTPublishPath = MQTTPublishPath + SensorReader_Location + "/"
     MQTTPublishPath = MQTTPublishPath + SensorName + "/"
-    MQTTPublishPath = MQTTPublishPath + SensorLocation + "/json"
-    client_id = SensorReader_Name + SensorName
+    MQTTPublishPath = MQTTPublishPath + SensorLocationPub + "/json"
+    client_id = SensorReader_Name + SensorNamePub
 
     try:
         if (MQTT_User is not None and MQTT_Pass is not None):
@@ -183,11 +182,11 @@ def PublishThis (jsonData, SensorIndex, SensorType, SensorName, SensorLocation):
         time.sleep(2)
         GPIO.output(Led_Pin, True)
         time.sleep(2)
-        PrintThis("Sensor " + str(SensorIndex) + " Type: " + str(SensorType) + " SensorData : " + jsonData)
-        PrintThis("Sensor " + str(SensorIndex) + " Type: " + str(SensorType) + " Succefully published to MQTT - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath)
+        PrintThis("Sensor " + str(SensorIndex) + " Type: " + str(SensorTypePub) + " SensorData : " + jsonData)
+        PrintThis("Sensor " + str(SensorIndex) + " Type: " + str(SensorTypePub) + " Succefully published to MQTT - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath)
         GPIO.output(Led_Pin, False)
     except:
-        PrintThis("Sensor " + str(SensorIndex) + " Type: " + str(SensorType) + " Failed to publish to MQTT  - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath + " Username/pwd -" + str(MQTT_User) + "-" + str(MQTT_Pass) + "-")
+        PrintThis("Sensor " + str(SensorIndex) + " Type: " + str(SensorTypePub) + " Failed to publish to MQTT  - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath + " Username/pwd -" + str(MQTT_User) + "-" + str(MQTT_Pass) + "-")
 
     GPIO.output(Led_Pin, True)
     GPIO.output(Led_Pin, False)
