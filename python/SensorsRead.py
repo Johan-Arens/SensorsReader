@@ -20,11 +20,14 @@ import syslog
 import sys
 
 try:
-    if sys.argv[1] == "Debug"
+    if sys.argv[1] is not None:
+      if sys.argv[1] == "debug":
         printToConsole=True
+      else:
+        printToConsole=False
     else:
         printToConsole=False
-except
+except:
     printToConsole=False
 
 
