@@ -174,10 +174,10 @@ def PublishThis (jsonData, SensorIndex, SensorTypePub, SensorNamePub, SensorLoca
 
     try:
         if (MQTT_User is not None and MQTT_Pass is not None):
-            print "MQTT with auth"
+            #print "MQTT with auth"
             publish.single(MQTTPublishPath, jsonData, hostname=MQTT_Host, port=MQTT_Port, client_id=client_id, transport="tcp", auth={'username': MQTT_User, 'password': MQTT_Pass}, qos=2)
         else:
-            print "MQTT with no auth"
+            #print "MQTT with no auth"
             publish.single(MQTTPublishPath, jsonData, hostname=MQTT_Host, port=MQTT_Port, client_id=client_id, transport="tcp", qos=2)
         GPIO.output(Led_Pin, False)
         time.sleep(2)
