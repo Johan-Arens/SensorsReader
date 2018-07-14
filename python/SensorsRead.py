@@ -167,7 +167,7 @@ def PublishThis (jsonData, SensorIndex, SensorTypePub, SensorNamePub, SensorLoca
         MQTT_Path_Prepend = MQTT_Path_Prepend + "/"
     MQTTPublishPath = MQTT_Path_Prepend + SensorReader_Name + "/"
     MQTTPublishPath = MQTTPublishPath + SensorReader_Location + "/"
-    MQTTPublishPath = MQTTPublishPath + SensorName + "/"
+    MQTTPublishPath = MQTTPublishPath + SensorNamePub + "/"
     MQTTPublishPath = MQTTPublishPath + SensorLocationPub + "/json"
     client_id = SensorReader_Name + SensorNamePub
 
