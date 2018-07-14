@@ -215,7 +215,7 @@ while current <= len(configReadJson['Sensors']):
         configReadJson['Sensors'][str(current)]['Sensor_Name'],
         configReadJson['Sensors'][str(current)]['Sensor_Location'],
         configReadJson['Sensors'][str(current)]['Sensor_Address'],
-        configReadJson['Sensors'][str(current)]['Sensor_Type']
+        configReadJson['Sensors'][str(current)]['Sensor_Type'],
         configReadJson['Sensors'][str(current)]['Sensor_Refresh']
     ))
     jobs.append(p)
