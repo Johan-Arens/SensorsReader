@@ -197,6 +197,8 @@ else:
         print "Sensor " + str(SensorNumber) + " Name : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Name]\" value = \"" + configReadJson['Sensors'][str(SensorNumber)]['Sensor_Name'] + "\"> <br>"
         print "Sensor " + str(SensorNumber) + " Location : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Location]\" value = \"" + configReadJson['Sensors'][str(SensorNumber)]['Sensor_Location'] + "\"> <br>"
         print "Sensor " + str(SensorNumber) + " Address : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Address]\" value = \"" + configReadJson['Sensors'][str(SensorNumber)]['Sensor_Address'] + "\"> <i>GPIO Pin or 1-Wire bus address</i><br>"
+        print "Sensor " + str(SensorNumber) + " Refresh : <input type = \"text\" name = \"Sensors[" + str(
+          SensorNumber) + "][Sensor_Refresh]\" value = \"\"> <br>"
             
         if configReadJson['Sensors'][str(SensorNumber)]['Sensor_Type'] == "DHT22":
           optionLine = optionLine.replace("selectedNone", "", 1)
@@ -233,7 +235,7 @@ else:
       print "Sensor " + str(SensorNumber) + " Name : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Name]\" value = \"\"> <br>"
       print "Sensor " + str(SensorNumber) + " Location : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Location]\" value = \"\"> <br>"
       print "Sensor " + str(SensorNumber) + " Address : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Address]\" value = \"\"> <i>GPIO Pin or 1-Wire bus address</i><br>"
-      print "Sensor " + str(SensorNumber) + " Address : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Refresh]\" value = \"\"> <br>"
+      print "Sensor " + str(SensorNumber) + " Refresh : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Refresh]\" value = \"\">  <i> Not Mandatory, if blank, will default to the general refresh</i><br>"
 
       print "Sensor Type : <select name = \"Sensors[" + str(SensorNumber) + "][Sensor_Type]\"> <option value \"\" selectedNone ></option><option value=\"DHT22\" selectedDHT22 >DHT22</option> <option value=\"1-Wire\" selected1wire >1-Wire</option></select> <br>"
       print "<br>"        
