@@ -173,6 +173,9 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
 
       time.sleep(ThreadRefresh)
 
+def PrintThis (StringToPrint):
+   print datetime.datetime.now() + StringToPrint + "\n"
+
 configOK = False
 oneWirePath = "/sys/bus/w1/devices/"
 
@@ -199,11 +202,10 @@ if not configOK:
      print "No valid config found"
      exit(1)
 
-print "Will loop every " + str(Refresh) + " sec for 60 sec"
+PrintThis "Will loop every " + str(Refresh) + " sec for 60 sec"
 t_end = time.time() + 59
 
-defPrintThis (StringToPrint):
-   print datetime.datetime.now() + StringToPrint + "\n"
+
 
 
 
