@@ -15,37 +15,7 @@ import os.path
 import RPi.GPIO as GPIO
 import time
 import multiprocessing
-
-
-configOK = False
-oneWirePath = "/sys/bus/w1/devices/"
-
-if os.path.exists("/var/www/html/config/config_script.json"):
-     with open("/var/www/html/config/config_script.json",'r') as configFileRead:
-       configReadJson = configFileRead.read()  
-       configFileRead.close()
-       configReadJson=json.loads(configReadJson)
-       Led_Pin                  = int(configReadJson['Led_Pin'])
-       MQTT_Host                = configReadJson['MQTT_Host']
-       MQTT_Port                = int(configReadJson['MQTT_Port'])
-       MQTT_User                = configReadJson['MQTT_User']
-       MQTT_Pass                = configReadJson['MQTT_Pass']
-       MQTT_Path_Prepend        = configReadJson['MQTT_Path_Prepend']
-       SensorReader_Location    = configReadJson['SensorReader_Location']
-       SensorReader_Name        = configReadJson['SensorReader_Name']
-       Refresh                  = int(configReadJson['Refresh'])
-       SensorTable              = configReadJson
-       configOK                 = True
-else:
-     configOK = False
-     
-if not configOK:
-     print "No valid config found"
-     exit(1)
-
-print "Will loop every " + str(Refresh) + " sec for 60 sec"
-t_end = time.time() + 59
-
+import datetime
 
 def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRefresh):
    global SensorReader_Name
@@ -144,7 +114,7 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
          try:
            if int(SensorAddress) < 41:
              GPIO.setup(int(SensorAddress), GPIO.IN, pull_up_down=GPIO.PUD_UP)
-             if GPIO.input(SensorAddress):
+             if GPIO.input(int(SensorAddress)):
                DryContact = "OPEN"
              else:
                DryContact = "CLOSED"
@@ -202,6 +172,40 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
       GPIO.output(Led_Pin, False)
 
       time.sleep(ThreadRefresh)
+
+configOK = False
+oneWirePath = "/sys/bus/w1/devices/"
+
+if os.path.exists("/var/www/html/config/config_script.json"):
+     with open("/var/www/html/config/config_script.json",'r') as configFileRead:
+       configReadJson = configFileRead.read()  
+       configFileRead.close()
+       configReadJson=json.loads(configReadJson)
+       Led_Pin                  = int(configReadJson['Led_Pin'])
+       MQTT_Host                = configReadJson['MQTT_Host']
+       MQTT_Port                = int(configReadJson['MQTT_Port'])
+       MQTT_User                = configReadJson['MQTT_User']
+       MQTT_Pass                = configReadJson['MQTT_Pass']
+       MQTT_Path_Prepend        = configReadJson['MQTT_Path_Prepend']
+       SensorReader_Location    = configReadJson['SensorReader_Location']
+       SensorReader_Name        = configReadJson['SensorReader_Name']
+       Refresh                  = int(configReadJson['Refresh'])
+       SensorTable              = configReadJson
+       configOK                 = True
+else:
+     configOK = False
+     
+if not configOK:
+     print "No valid config found"
+     exit(1)
+
+print "Will loop every " + str(Refresh) + " sec for 60 sec"
+t_end = time.time() + 59
+
+defPrintThis (StringToPrint):
+   print datetime.datetime.now() + StringToPrint + "\n"
+
+
 
 current = 1
 jobs = []
