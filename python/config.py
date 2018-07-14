@@ -65,11 +65,17 @@ if bool(NewConfig) is True:
       ConfigDict['Sensors'][SensorNumber]['Sensor_Location']  = form.getvalue('Sensors[' + str(SensorNumber) +'][Sensor_Location]')
       ConfigDict['Sensors'][SensorNumber]['Sensor_Address']   = form.getvalue('Sensors[' + str(SensorNumber) +'][Sensor_Address]')
       ConfigDict['Sensors'][SensorNumber]['Sensor_Type']      = form.getvalue('Sensors[' + str(SensorNumber) +'][Sensor_Type]')
-      Sensor_Refresh_Eval = form.getvalue('Sensors[' + str(SensorNumber) +'][Sensor_Type]')
-      if Sensor_Refresh_Eval is None or str(Sensor_Refresh_Eval) == "None" or Sensor_Refresh_Eval == "":
+      Sensor_Refresh_Eval = form.getvalue('Sensors[' + str(SensorNumber) + '][Sensor_Refresh]')
+      if Sensor_Refresh_Eval is None:
         ConfigDict['Sensors'][SensorNumber]['Sensor_Refresh'] = ""
       else:
-        ConfigDict['Sensors'][SensorNumber]['Sensor_Refresh']   = form.getvalue('Sensors[' + str(SensorNumber) +'][Sensor_Refresh]')
+        ConfigDict['Sensors'][SensorNumber]['Sensor_Refresh'] = Sensor_Refresh_Eval
+
+      if "None" in str(Sensor_Refresh_Eval):
+        ConfigDict['Sensors'][SensorNumber]['Sensor_Refresh'] = ""
+      else:
+        ConfigDict['Sensors'][SensorNumber]['Sensor_Refresh'] = Sensor_Refresh_Eval
+
     else:
        stop = True
     SensorNumber += 1
