@@ -16,6 +16,17 @@ import RPi.GPIO as GPIO
 import time
 import multiprocessing
 import datetime
+import syslog
+import sys
+
+try:
+    if sys.argv[1] == "Debug"
+        printToConsole=True
+    else:
+        printToConsole=False
+except
+    printToConsole=False
+
 
 def SensorWorker(SensorNumber, SensorName, SensorLocation, SensorAddress, SensorType, SensorRefresh):
 
@@ -144,7 +155,11 @@ def SensorWorker(SensorNumber, SensorName, SensorLocation, SensorAddress, Sensor
       time.sleep(ThreadRefresh)
 
 def PrintThis (StringToPrint):
-   print str(datetime.datetime.now()) + " - " + str(StringToPrint)
+   global printToConsole
+   if printToConsole:
+      print str(datetime.datetime.now()) + " - " + str(StringToPrint)
+   else:
+      syslog.syslog(str(datetime.datetime.now()) + " - " + str(StringToPrint))
 
 def PublishThis (jsonData, SensorIndex, SensorTypePub, SensorNamePub, SensorLocationPub):
     global SensorReader_Name
