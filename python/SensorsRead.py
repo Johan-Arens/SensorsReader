@@ -162,7 +162,7 @@ def PrintThis (StringToPrint):
    if printToConsole:
       print str(datetime.datetime.now()) + " - " + str(StringToPrint)
    else:
-      syslog.syslog(str(datetime.datetime.now()) + " - " + str(StringToPrint))
+      syslog.syslog(str(StringToPrint))
 
 def PublishThis (jsonData, SensorIndex, SensorTypePub, SensorNamePub, SensorLocationPub):
     global SensorReader_Name
