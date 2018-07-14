@@ -174,7 +174,7 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
       time.sleep(ThreadRefresh)
 
 def PrintThis (StringToPrint):
-   print datetime.datetime.now() + StringToPrint + "\n"
+   print str(datetime.datetime.now()) + str(StringToPrint) + "\n"
 
 configOK = False
 oneWirePath = "/sys/bus/w1/devices/"
