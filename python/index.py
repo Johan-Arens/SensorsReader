@@ -91,6 +91,7 @@ else:
           print "   Location: " + configReadJson['Sensors'][str(current)]['Sensor_Location'] + "<br>"
           print "   Address: " + configReadJson['Sensors'][str(current)]['Sensor_Address'] + "<br>"
           print "   Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type'] + "<br>"
+          print "   Refresh: " + configReadJson['Sensors'][str(current)]['Sensor_Refresh'] + "<br>"
           print "<hr>"
           current +=1
      print "<form method=\"post\" action=\"/python/config.py\"><button type=\"submit\">Edit Config</button></form>"
