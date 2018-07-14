@@ -64,6 +64,7 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
    else:
        ThreadRefresh = Refresh
 
+   print "Thread will refresh every " + str(ThreadRefresh)
    t_end = time.time() + 59
    while time.time() < t_end:
 
