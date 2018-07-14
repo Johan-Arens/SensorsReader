@@ -125,15 +125,15 @@ def SensorWorker(SensorNumber, SensorName, SensorLocation, SensorAddress, Sensor
                 "DryContactStatus": DryContact,
                 "Timestamp": int(time.time())
             })
-         jobs.append(p)
-         publishProcess = multiprocessing.Process(target=PublishThis, args=(
+      jobs.append(publishProcess)
+      publishProcess = multiprocessing.Process(target=PublishThis, args=(
              outputJson,
              SensorNumber,
              SensorType,
              SensorName,
              SensorLocation
          ))
-         publishProcess.start()
+      publishProcess.start()
 
 
          #PublishThis(outputJson, SensorNumber, SensorType, SensorName, SensorLocation)
