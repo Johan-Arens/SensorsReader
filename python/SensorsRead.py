@@ -47,7 +47,7 @@ print "Will loop every " + str(Refresh) + " sec for 60 sec"
 t_end = time.time() + 59
 
 
-def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType):
+def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRefresh):
    global SensorReader_Name
    global SensorReader_Location
    global Led_Pin
@@ -58,6 +58,11 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType):
    global MQTT_Port
    global MQTT_User
    global Refresh
+
+   if SensorRefresh > 0:
+       ThreadRefresh = SensorRefresh
+   else:
+       ThreadRefresh = Refresh
 
    t_end = time.time() + 59
    while time.time() < t_end:
@@ -194,7 +199,7 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType):
       GPIO.output(Led_Pin, True)
       GPIO.output(Led_Pin, False)
 
-      time.sleep(Refresh)
+      time.sleep(ThreadRefresh)
 
 current = 1
 jobs = []
@@ -211,6 +216,7 @@ while current <= len(configReadJson['Sensors']):
         configReadJson['Sensors'][str(current)]['Sensor_Location'],
         configReadJson['Sensors'][str(current)]['Sensor_Address'],
         configReadJson['Sensors'][str(current)]['Sensor_Type']
+        configReadJson['Sensors'][str(current)]['Sensor_Refresh']
     ))
     jobs.append(p)
     p.start()
