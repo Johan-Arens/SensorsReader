@@ -39,7 +39,7 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
        ThreadRefresh = Refresh
    ThreadRefresh = float(ThreadRefresh)
 
-   PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type'] + " Thread " + SensorName + " will refresh every " + str(ThreadRefresh) + "\n")
+   PrintThis("Thread " + SensorName + " will refresh every " + str(ThreadRefresh))
    t_end = time.time() + 59
    while time.time() < t_end:
 
@@ -61,10 +61,10 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
          try:
             humidity, temperature = Adafruit_DHT.read_retry(ShortSensorType, int(SensorAddress))
          except:
-           print "DHT " + int(SensorAddress) + "timeout - no value"
+           PrintThis("DHT " + int(SensorAddress) + "timeout - no value")
 
          if humidity is None and temperature is None:
-           print "no value returned on dht"
+           PrintThis("no value returned on dht")
          else:
             #print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
             outputJson=json.dumps({
@@ -93,9 +93,9 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
               SensorDataReadLines += 1
 
          except:
-           print "Can't read 1-Wire probe " + SensorAddress + " - Verify config"
+             PrintThis("Can't read 1-Wire probe " + SensorAddress + " - Verify config")
          if temperature is None:
-           print "no value returned on 1-wire"
+             PrintThis("no value returned on 1-wire")
          else:
             #print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
             outputJson=json.dumps({
@@ -119,10 +119,10 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
              else:
                DryContact = "CLOSED"
          except:
-             PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type'] + "DryContact " + str(SensorAddress) + " timeout - no value")
+             PrintThis("DryContact " + str(SensorAddress) + " timeout - no value")
              DryContact = "Error"
          if DryContact is None:
-             PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type'] + "no value returned on DryContact")
+             PrintThis("No value returned on DryContact")
              DryContact = "Error"
          else:
             #print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
