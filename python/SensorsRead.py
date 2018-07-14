@@ -39,7 +39,7 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
        ThreadRefresh = Refresh
    ThreadRefresh = float(ThreadRefresh)
 
-   PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type']) + " Thread " + SensorName + " will refresh every " + str(ThreadRefresh) + "\n")
+   PrintThis("Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type'] + " Thread " + SensorName + " will refresh every " + str(ThreadRefresh) + "\n")
    t_end = time.time() + 59
    while time.time() < t_end:
 
