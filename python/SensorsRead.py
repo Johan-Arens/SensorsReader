@@ -59,10 +59,15 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
    global MQTT_User
    global Refresh
 
-   if SensorRefresh > 0 or SensorRefresh is not none:
-       ThreadRefresh = SensorRefresh
+   if SensorRefresh != "":
+       if SensorRefresh > 0:
+           print "Sensor " + SensorName + " has different refresh rate"
+           ThreadRefresh = SensorRefresh
+       else:
+           ThreadRefresh = Refresh
    else:
        ThreadRefresh = Refresh
+   ThreadRefresh = float(ThreadRefresh)
 
    print "Thread " + SensorName + " will refresh every " + str(ThreadRefresh) + "\n"
    t_end = time.time() + 59
