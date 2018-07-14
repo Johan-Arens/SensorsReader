@@ -17,7 +17,7 @@ import time
 import multiprocessing
 import datetime
 
-def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRefresh):
+def SensorWorker(SensorNumber, SensorName, SensorLocation, SensorAddress, SensorType, SensorRefresh):
    global SensorReader_Name
    global SensorReader_Location
    global Led_Pin
@@ -31,7 +31,7 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
 
    if SensorRefresh != "":
        if SensorRefresh > 0:
-           PrintThis("Sensor " + SensorName + " has different refresh rate")
+           PrintThis("Sensor " + SensorNumber + " " + SensorType + " has different refresh rate")
            ThreadRefresh = SensorRefresh
        else:
            ThreadRefresh = Refresh
@@ -39,7 +39,7 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
        ThreadRefresh = Refresh
    ThreadRefresh = float(ThreadRefresh)
 
-   PrintThis("Thread " + SensorName + " will refresh every " + str(ThreadRefresh))
+   PrintThis("Sensor " + SensorNumber + " " + SensorType + " will refresh every " + str(ThreadRefresh))
    t_end = time.time() + 59
    while time.time() < t_end:
 
@@ -61,10 +61,10 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
          try:
             humidity, temperature = Adafruit_DHT.read_retry(ShortSensorType, int(SensorAddress))
          except:
-           PrintThis("DHT " + int(SensorAddress) + "timeout - no value")
+             PrintThis("Sensor " + SensorNumber + " " + SensorType + " " + str(SensorAddress) + "timeout - no value")
 
          if humidity is None and temperature is None:
-           PrintThis("no value returned on dht")
+             PrintThis("Sensor " + SensorNumber + " " + SensorType + " timeout - no value")
          else:
             #print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
             outputJson=json.dumps({
@@ -93,9 +93,9 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
               SensorDataReadLines += 1
 
          except:
-             PrintThis("Can't read 1-Wire probe " + SensorAddress + " - Verify config")
+             PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - timeout - no value")
          if temperature is None:
-             PrintThis("no value returned on 1-wire")
+             PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - timeout - no value")
          else:
             #print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
             outputJson=json.dumps({
@@ -119,10 +119,10 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
              else:
                DryContact = "CLOSED"
          except:
-             PrintThis("DryContact " + str(SensorAddress) + " timeout - no value")
+             PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - timeout - no value")
              DryContact = "Error"
          if DryContact is None:
-             PrintThis("No value returned on DryContact")
+             PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - timeout - no value")
              DryContact = "Error"
          else:
             #print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
@@ -221,6 +221,7 @@ while current <= len(configReadJson['Sensors']):
     PrintThis( "Sensor " + str(current) + " Type: " + configReadJson['Sensors'][str(current)]['Sensor_Type'])
     PrintThis( "Sensor " + str(current) + " Refresh: " + configReadJson['Sensors'][str(current)]['Sensor_Refresh'])
     p = multiprocessing.Process(target=SensorWorker, args=(
+        str(current),
         configReadJson['Sensors'][str(current)]['Sensor_Name'],
         configReadJson['Sensors'][str(current)]['Sensor_Location'],
         configReadJson['Sensors'][str(current)]['Sensor_Address'],
