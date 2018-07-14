@@ -140,11 +140,7 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
 
       if SensorType == "DryContact":
          DryContact = ""
-         GPIO.setup(int(SensorAddress), GPIO.IN, pull_up_down=GPIO.PUD_UP)
-         if GPIO.input(int(SensorAddress)):
-             DryContact = "OPEN"
-         else:
-             DryContact = "CLOSED"
+
          try:
            if int(SensorAddress) < 41:
              GPIO.setup(int(SensorAddress), GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -165,8 +161,8 @@ def SensorWorker(SensorName, SensorLocation, SensorAddress, SensorType, SensorRe
                 "Sensor_Address": SensorAddress,
                 "Sensor_Location": SensorLocation,
                 "Sensor_Type": SensorType,
-               "DryContactStatus": DryContact,
-               "Timestamp": int(time.time())
+                "DryContactStatus": DryContact,
+                "Timestamp": int(time.time())
             })
 
 
