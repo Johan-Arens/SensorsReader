@@ -65,7 +65,12 @@ if bool(NewConfig) is True:
       ConfigDict['Sensors'][SensorNumber]['Sensor_Location']  = form.getvalue('Sensors[' + str(SensorNumber) +'][Sensor_Location]')
       ConfigDict['Sensors'][SensorNumber]['Sensor_Address']   = form.getvalue('Sensors[' + str(SensorNumber) +'][Sensor_Address]')
       ConfigDict['Sensors'][SensorNumber]['Sensor_Type']      = form.getvalue('Sensors[' + str(SensorNumber) +'][Sensor_Type]')
-      ConfigDict['Sensors'][SensorNumber]['Sensor_Refresh']   = form.getvalue('Sensors[' + str(SensorNumber) +'][Sensor_Refresh]')
+      if form.getvalue('Sensors[' + str(SensorNumber) +'][Sensor_Refresh]') is None
+        or form.getvalue('Sensors[' + str(SensorNumber) +'][Sensor_Refresh]') == "None"
+        or form.getvalue('Sensors[' + str(SensorNumber) +'][Sensor_Refresh]') == "":
+        ConfigDict['Sensors'][SensorNumber]['Sensor_Refresh'] = ""
+      else:
+        ConfigDict['Sensors'][SensorNumber]['Sensor_Refresh']   = form.getvalue('Sensors[' + str(SensorNumber) +'][Sensor_Refresh]')
     else:
        stop = True
     SensorNumber += 1
