@@ -197,7 +197,7 @@ else:
         print "Sensor " + str(SensorNumber) + " Name : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Name]\" value = \"" + configReadJson['Sensors'][str(SensorNumber)]['Sensor_Name'] + "\"> <br>"
         print "Sensor " + str(SensorNumber) + " Location : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Location]\" value = \"" + configReadJson['Sensors'][str(SensorNumber)]['Sensor_Location'] + "\"> <br>"
         print "Sensor " + str(SensorNumber) + " Address : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Address]\" value = \"" + configReadJson['Sensors'][str(SensorNumber)]['Sensor_Address'] + "\"> <i>GPIO Pin or 1-Wire bus address</i><br>"
-        print "Sensor " + str(SensorNumber) + " Refresh : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Refresh]\" value = \"" + configReadJson['Sensors'][str(SensorNumber)]['Sensor_Refresh'] + "\"> <br>"
+        print "Sensor " + str(SensorNumber) + " Refresh : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Refresh]\" value = \"" + str(configReadJson['Sensors'][str(SensorNumber)]['Sensor_Refresh']) + "\"> <br>"
             
         if configReadJson['Sensors'][str(SensorNumber)]['Sensor_Type'] == "DHT22":
           optionLine = optionLine.replace("selectedNone", "", 1)
