@@ -126,8 +126,18 @@ def SensorWorker(SensorNumber, SensorName, SensorLocation, SensorAddress, Sensor
                 "DryContactStatus": DryContact,
                 "Timestamp": int(time.time())
             })
+         jobs.append(p)
+         publishProcess = multiprocessing.Process(target=PublishThis, args=(
+             outputJson,
+             SensorNumber,
+             SensorType,
+             SensorName,
+             SensorLocation
+         ))
+         publishProcess.start()
 
-         PublishThis(outputJson, SensorNumber, SensorType, SensorName, SensorLocation)
+
+         #PublishThis(outputJson, SensorNumber, SensorType, SensorName, SensorLocation)
 
 
 
@@ -135,7 +145,6 @@ def SensorWorker(SensorNumber, SensorName, SensorLocation, SensorAddress, Sensor
 
 def PrintThis (StringToPrint):
    print str(datetime.datetime.now()) + " - " + str(StringToPrint)
-
 
 def PublishThis (jsonData, SensorIndex, SensorType, SensorName, SensorLocation):
     global SensorReader_Name
@@ -182,7 +191,6 @@ def PublishThis (jsonData, SensorIndex, SensorType, SensorName, SensorLocation):
 
     GPIO.output(Led_Pin, True)
     GPIO.output(Led_Pin, False)
-
 
 configOK = False
 oneWirePath = "/sys/bus/w1/devices/"
