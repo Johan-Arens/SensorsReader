@@ -180,7 +180,7 @@ def PublishThis (jsonData, SensorIndex, SensorType, SensorName, SensorLocation):
         PrintThis("Sensor " + str(SensorIndex) + " Type: " + str(SensorType) + " Succefully published to MQTT - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath)
         GPIO.output(Led_Pin, False)
     except:
-        PrintThis("Sensor " + str(SensorIndex) + " Type: " + str(SensorType) + " Failed to publish to MQTT  - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath + " Username/pwd -" + MQTT_User + "-" + MQTT_Pass + "-")
+        PrintThis("Sensor " + str(SensorIndex) + " Type: " + str(SensorType) + " Failed to publish to MQTT  - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath + " Username/pwd -" + str(MQTT_User) + "-" + str(MQTT_Pass) + "-")
 
     GPIO.output(Led_Pin, True)
     GPIO.output(Led_Pin, False)
