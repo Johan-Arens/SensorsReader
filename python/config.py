@@ -226,6 +226,7 @@ else:
         print "Sensor " + str(SensorNumber) + " Name : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Name]\" value = \"\"> <br>"
         print "Sensor " + str(SensorNumber) + " Location : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Location]\" value = \"\"> <br>"
         print "Sensor " + str(SensorNumber) + " Address : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Address]\" value = \"\"> <i>GPIO Pin or 1-Wire bus address</i><br>"
+        print "Sensor " + str(SensorNumber) + " Refresh : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Refresh]\" value = \"\"> <br>"
         print optionLine
         print "<br>" 
   else:
