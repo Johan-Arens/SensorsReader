@@ -202,7 +202,7 @@ if not configOK:
      print "No valid config found"
      exit(1)
 
-PrintThis "Will loop every " + str(Refresh) + " sec for 60 sec"
+PrintThis ("Will loop every " + str(Refresh) + " sec for 60 sec")
 t_end = time.time() + 59
 
 
