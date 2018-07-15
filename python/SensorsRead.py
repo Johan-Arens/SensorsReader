@@ -149,7 +149,7 @@ def SensorWorker(SensorNumber, SensorName, SensorLocation, SensorAddress, Sensor
          ))
       jobs.append(publishProcess)
       publishProcess.start()
-      publishProcess.join(self,timeout=30)
+      publishProcess.join(timeout=30)
 
 
          #PublishThis(outputJson, SensorNumber, SensorType, SensorName, SensorLocation)
