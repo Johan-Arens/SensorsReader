@@ -221,6 +221,7 @@ def CleanUpOldProcess (scriptName):
         else:
             if pinfo['name'] == scriptName:
                 proc.kill()
+                PrintThis("Killed process " + pinfo['pid'])
 
 
 configOK = False
