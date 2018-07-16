@@ -18,6 +18,7 @@ import multiprocessing
 import datetime
 import syslog
 import sys
+import psutil
 
 try:
     if sys.argv[1] is not None:
@@ -211,6 +212,17 @@ def PublishThis (jsonData, SensorIndex, SensorTypePub, SensorNamePub, SensorLoca
     GPIO.output(Led_Pin, True)
     GPIO.output(Led_Pin, False)
 
+def CleanUpOldProcess (scriptName):
+    for proc in psutil.process_iter():
+        try:
+            pinfo = proc.as_dict(attrs=['pid', 'name'])
+        except psutil.NoSuchProcess:
+            pass
+        else:
+            if pinfo['name'] == scriptName:
+                proc.kill()
+
+
 configOK = False
 oneWirePath = "/sys/bus/w1/devices/"
 
@@ -269,3 +281,4 @@ while current <= len(configReadJson['Sensors']):
     current += 1
 
 p.join()
+CleanUpOldProcess(sys.argv[0])
