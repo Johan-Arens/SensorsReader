@@ -220,11 +220,13 @@ def CleanUpOldProcess (scriptName):
             pass
         else:
             if pinfo['name'] == scriptName:
+                if pinfo['pid'] == os.getpid():
+                    PrintThis("Not Killing myself " + pinfo['pid'])
                 PrintThis("Killed process " + pinfo['pid'])
                 proc.kill()
 
 
-
+CleanUpOldProcess(sys.argv[0])
 configOK = False
 oneWirePath = "/sys/bus/w1/devices/"
 
@@ -283,4 +285,3 @@ while current <= len(configReadJson['Sensors']):
     current += 1
 
 p.join()
-CleanUpOldProcess(sys.argv[0])
