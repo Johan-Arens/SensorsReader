@@ -220,6 +220,7 @@ def CleanUpOldProcess (scriptName):
             pass
         else:
             PrintThis(pinfo['name'])
+            PrintThis(scriptName)
             if pinfo['name'] == scriptName:
                 if pinfo['pid'] == os.getpid():
                     PrintThis("Not Killing myself " + pinfo['pid'])
