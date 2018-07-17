@@ -219,6 +219,7 @@ def CleanUpOldProcess (scriptName):
         except psutil.NoSuchProcess:
             pass
         else:
+            PrintThis(pinfo['name'])
             if pinfo['name'] == scriptName:
                 if pinfo['pid'] == os.getpid():
                     PrintThis("Not Killing myself " + pinfo['pid'])
