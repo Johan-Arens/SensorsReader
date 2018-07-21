@@ -190,7 +190,8 @@ def PublishThis (jsonData, SensorIndex, SensorTypePub, SensorNamePub, SensorLoca
     MQTTPublishPath = MQTTPublishPath + SensorReader_Location + "/"
     MQTTPublishPath = MQTTPublishPath + SensorNamePub + "/"
     MQTTPublishPath = MQTTPublishPath + SensorLocationPub + "/json"
-    client_id = SensorReader_Name + SensorNamePub
+    client_id = SensorReader_Name + MQTTPublishPath.replace ('/', '-')
+    print 'cliend_id is ' + client_id
 
     try:
         if (MQTT_User is not None and MQTT_Pass is not None):
@@ -220,8 +221,8 @@ def CleanUpOldProcess (scriptName):
         except psutil.NoSuchProcess:
             pass
         else:
-            PrintThis(pinfo['name'])
-            PrintThis(scriptNameLast[-1])
+            #PrintThis(pinfo['name'])
+            #PrintThis(scriptNameLast[-1])
             if pinfo['name'] == scriptNameLast[-1]:
                 if pinfo['pid'] == os.getpid():
                     PrintThis("Not Killing myself " + str(pinfo['pid']))
