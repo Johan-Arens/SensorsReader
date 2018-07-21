@@ -269,13 +269,8 @@ def PublishThisSystem(jsonData, itemName):
         else:
             #print "MQTT with no auth"
             publish.single(MQTTPublishPath, jsonData, hostname=MQTT_Host, port=MQTT_Port, client_id=client_id, transport="tcp", qos=2)
-        GPIO.output(Led_Pin, False)
-        time.sleep(2)
-        GPIO.output(Led_Pin, True)
-        time.sleep(2)
         PrintThis("Sensor " + str(itemName) + " SensorData : " + jsonData)
         PrintThis("Sensor " + str(itemName)  + " Succefully published to MQTT - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath)
-        GPIO.output(Led_Pin, False)
     except:
         PrintThis("Sensor " + str(itemName) + " Failed to publish to MQTT  - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath + " Username/pwd -" + str(MQTT_User) + "-" + str(MQTT_Pass) + "-")
 
