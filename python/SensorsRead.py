@@ -259,7 +259,7 @@ def PublishThisSystem(jsonData, itemName):
 
     MQTTPublishPath = 'System' + "/"
     MQTTPublishPath = MQTTPublishPath + SensorReader_Name + "/"
-    MQTTPublishPath = MQTTPublishPath + itemName + "/"
+    MQTTPublishPath = MQTTPublishPath + itemName
     client_id = SensorReader_Name + MQTTPublishPath.replace ('/', '-')
     print 'cliend_id is ' + client_id
 
@@ -274,11 +274,11 @@ def PublishThisSystem(jsonData, itemName):
         time.sleep(2)
         GPIO.output(Led_Pin, True)
         time.sleep(2)
-        PrintThis("Sensor " + str(SensorIndex) + " Type: " + str(SensorTypePub) + " SensorData : " + jsonData)
-        PrintThis("Sensor " + str(SensorIndex) + " Type: " + str(SensorTypePub) + " Succefully published to MQTT - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath)
+        PrintThis("Sensor " + str(itemName) + " SensorData : " + jsonData)
+        PrintThis("Sensor " + str(itemName)  + " Succefully published to MQTT - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath)
         GPIO.output(Led_Pin, False)
     except:
-        PrintThis("Sensor " + str(SensorIndex) + " Type: " + str(SensorTypePub) + " Failed to publish to MQTT  - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath + " Username/pwd -" + str(MQTT_User) + "-" + str(MQTT_Pass) + "-")
+        PrintThis("Sensor " + str(itemName) + " Failed to publish to MQTT  - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath + " Username/pwd -" + str(MQTT_User) + "-" + str(MQTT_Pass) + "-")
 
 CleanUpOldProcess(sys.argv[0])
 configOK = False
