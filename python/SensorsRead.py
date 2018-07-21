@@ -334,9 +334,11 @@ while current <= len(configReadJson['Sensors']):
         configReadJson['Sensors'][str(current)]['Sensor_Type'],
         configReadJson['Sensors'][str(current)]['Sensor_Refresh']
     ))
-    p = multiprocessing.Process(target=SystemSensorWorker, args='')
     jobs.append(p)
     p.start()
+    pSys = multiprocessing.Process(target=SystemSensorWorker, args='')
+    jobs.append(pSys)
+    pSys.start()
     current += 1
 
 p.join()
