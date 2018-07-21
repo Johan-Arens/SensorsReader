@@ -214,6 +214,7 @@ def PublishThis (jsonData, SensorIndex, SensorTypePub, SensorNamePub, SensorLoca
 
 def CleanUpOldProcess (scriptName):
     for proc in psutil.process_iter():
+        scriptName = scriptName.split('/')[-1]
         try:
             pinfo = proc.as_dict(attrs=['pid', 'name'])
         except psutil.NoSuchProcess:
