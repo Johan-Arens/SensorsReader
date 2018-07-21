@@ -257,7 +257,6 @@ def PublishThisSystem(jsonData, itemName):
     global MQTT_Port
     global MQTT_User
 
-    if not MQTT_Path_Prepend.endswith('/'):
     MQTTPublishPath = 'System' + "/"
     MQTTPublishPath = MQTTPublishPath + SensorReader_Name + "/"
     MQTTPublishPath = MQTTPublishPath + itemName + "/"
