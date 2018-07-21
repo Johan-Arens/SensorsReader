@@ -243,7 +243,7 @@ def SystemSensorWorker():
         PublishThisSystem(json.dumps(psutil.disk_partitions()), 'Disk_Partitions')
         PublishThisSystem(json.dumps(psutil.disk_usage('/').__dict__), 'Disk_Usage')
         PublishThisSystem(json.dumps(psutil.net_connections(kind='inet')), 'Net_Connections')
-        PublishThisSystem(json.dumps(psutil.boot_time()), 'Uptime')
+        PublishThisSystem(json.dumps(time.time() - psutil.boot_time()), 'Uptime')
         time.sleep(threadRefresh)
 
 def PublishThisSystem(jsonData, itemName):
