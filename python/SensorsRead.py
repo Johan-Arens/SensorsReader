@@ -214,14 +214,14 @@ def PublishThis (jsonData, SensorIndex, SensorTypePub, SensorNamePub, SensorLoca
 
 def CleanUpOldProcess (scriptName):
     for proc in psutil.process_iter():
-        scriptName = scriptName.split('/')[-1]
+        scriptNameLast = scriptName.split('/')
         try:
             pinfo = proc.as_dict(attrs=['pid', 'name'])
         except psutil.NoSuchProcess:
             pass
         else:
             PrintThis(pinfo['name'])
-            PrintThis(scriptName)
+            PrintThis(scriptName[-1])
             if pinfo['name'] == scriptName:
                 if pinfo['pid'] == os.getpid():
                     PrintThis("Not Killing myself " + pinfo['pid'])
