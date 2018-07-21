@@ -230,6 +230,56 @@ def CleanUpOldProcess (scriptName):
                     PrintThis("Killed process " + str(pinfo['pid']))
                     proc.kill()
 
+def SystemSensorWorker():
+
+    threadRefresh = 5
+    t_end = time.time() + 59
+    while time.time() < t_end:
+        PublishThisSystem(json.dumps(psutil.cpu_times_percent().__dict__), 'CPU_Percent')
+        PublishThisSystem(json.dumps(psutil.cpu_times().__dict__), 'CPU_Times')
+        PublishThisSystem(json.dumps(psutil.virtual_memory().__dict__), 'Virtual_Memory')
+        PublishThisSystem(json.dumps(psutil.swap_memory().__dict__), 'Swap_Memory')
+        PublishThisSystem(json.dumps(psutil.net_io_counters(pernic=False, nowrap=True).__dict__), 'Net_IO_Counters')
+        PublishThisSystem(json.dumps(psutil.disk_partitions().__dict__), 'Disk_Partitions')
+        PublishThisSystem(json.dumps(psutil.disk_usage('/').__dict__), 'Disk_Usage')
+        PublishThisSystem(json.dumps(psutil.net_connections(kind='inet')), 'Net_Connections')
+        PublishThisSystem(json.dumps(psutil.boot_time()), 'Uptime')
+        time.sleep(threadRefresh)
+
+def PublishThisSystem(jsonData, itemName):
+    global SensorReader_Name
+    global SensorReader_Location
+    global Led_Pin
+    global MQTTPublishPath
+    global MQTT_Host
+    global MQTT_Pass
+    global MQTT_Path_Prepend
+    global MQTT_Port
+    global MQTT_User
+
+    if not MQTT_Path_Prepend.endswith('/'):
+    MQTTPublishPath = 'System' + "/"
+    MQTTPublishPath = MQTTPublishPath + SensorReader_Name + "/"
+    MQTTPublishPath = MQTTPublishPath + itemName + "/"
+    client_id = SensorReader_Name + MQTTPublishPath.replace ('/', '-')
+    print 'cliend_id is ' + client_id
+
+    try:
+        if (MQTT_User is not None and MQTT_Pass is not None):
+            #print "MQTT with auth"
+            publish.single(MQTTPublishPath, jsonData, hostname=MQTT_Host, port=MQTT_Port, client_id=client_id, transport="tcp", auth={'username': MQTT_User, 'password': MQTT_Pass}, qos=2)
+        else:
+            #print "MQTT with no auth"
+            publish.single(MQTTPublishPath, jsonData, hostname=MQTT_Host, port=MQTT_Port, client_id=client_id, transport="tcp", qos=2)
+        GPIO.output(Led_Pin, False)
+        time.sleep(2)
+        GPIO.output(Led_Pin, True)
+        time.sleep(2)
+        PrintThis("Sensor " + str(SensorIndex) + " Type: " + str(SensorTypePub) + " SensorData : " + jsonData)
+        PrintThis("Sensor " + str(SensorIndex) + " Type: " + str(SensorTypePub) + " Succefully published to MQTT - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath)
+        GPIO.output(Led_Pin, False)
+    except:
+        PrintThis("Sensor " + str(SensorIndex) + " Type: " + str(SensorTypePub) + " Failed to publish to MQTT  - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath + " Username/pwd -" + str(MQTT_User) + "-" + str(MQTT_Pass) + "-")
 
 CleanUpOldProcess(sys.argv[0])
 configOK = False
@@ -285,6 +335,7 @@ while current <= len(configReadJson['Sensors']):
         configReadJson['Sensors'][str(current)]['Sensor_Type'],
         configReadJson['Sensors'][str(current)]['Sensor_Refresh']
     ))
+    p = multiprocessing.Process(target=SystemSensorWorker, args='')
     jobs.append(p)
     p.start()
     current += 1
