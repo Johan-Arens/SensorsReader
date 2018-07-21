@@ -221,8 +221,8 @@ def CleanUpOldProcess (scriptName):
             pass
         else:
             PrintThis(pinfo['name'])
-            PrintThis(scriptName[-1])
-            if pinfo['name'] == scriptName:
+            PrintThis(scriptNameLast[-1])
+            if pinfo['name'] == scriptNameLast[-1]:
                 if pinfo['pid'] == os.getpid():
                     PrintThis("Not Killing myself " + pinfo['pid'])
                 PrintThis("Killed process " + pinfo['pid'])
