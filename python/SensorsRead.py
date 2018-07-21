@@ -240,7 +240,7 @@ def SystemSensorWorker():
         PublishThisSystem(json.dumps(psutil.virtual_memory().__dict__), 'Virtual_Memory')
         PublishThisSystem(json.dumps(psutil.swap_memory().__dict__), 'Swap_Memory')
         PublishThisSystem(json.dumps(psutil.net_io_counters(pernic=False, nowrap=True).__dict__), 'Net_IO_Counters')
-        PublishThisSystem(json.dumps(psutil.disk_partitions().__dict__), 'Disk_Partitions')
+        PublishThisSystem(json.dumps(psutil.disk_partitions()), 'Disk_Partitions')
         PublishThisSystem(json.dumps(psutil.disk_usage('/').__dict__), 'Disk_Usage')
         PublishThisSystem(json.dumps(psutil.net_connections(kind='inet')), 'Net_Connections')
         PublishThisSystem(json.dumps(psutil.boot_time()), 'Uptime')
@@ -250,7 +250,6 @@ def PublishThisSystem(jsonData, itemName):
     global SensorReader_Name
     global SensorReader_Location
     global Led_Pin
-    global MQTTPublishPath
     global MQTT_Host
     global MQTT_Pass
     global MQTT_Path_Prepend
