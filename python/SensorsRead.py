@@ -191,7 +191,7 @@ def PublishThis (jsonData, SensorIndex, SensorTypePub, SensorNamePub, SensorLoca
     MQTTPublishPath = MQTTPublishPath + SensorNamePub + "/"
     MQTTPublishPath = MQTTPublishPath + SensorLocationPub + "/json"
     client_id = SensorReader_Name + MQTTPublishPath.replace ('/', '-')
-    print 'cliend_id is ' + client_id
+    #print 'cliend_id is ' + client_id
 
     try:
         if (MQTT_User is not None and MQTT_Pass is not None):
@@ -261,7 +261,7 @@ def PublishThisSystem(jsonData, itemName):
     MQTTPublishPath = MQTTPublishPath + SensorReader_Name + "/"
     MQTTPublishPath = MQTTPublishPath + itemName
     client_id = SensorReader_Name + MQTTPublishPath.replace ('/', '-')
-    print 'cliend_id is ' + client_id
+    #print 'cliend_id is ' + client_id
 
     try:
         if (MQTT_User is not None and MQTT_Pass is not None):
