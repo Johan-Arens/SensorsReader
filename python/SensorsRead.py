@@ -196,11 +196,11 @@ def PublishThis (jsonData, SensorIndex, SensorTypePub, SensorNamePub, SensorLoca
     try:
         if (MQTT_User is not None and MQTT_Pass is not None):
             #print "MQTT with auth"
-            publish.single(MQTTPublishPath, jsonData, hostname=MQTT_Host, port=MQTT_Port, client_id=client_id, transport="tcp", auth={'username': MQTT_User, 'password': MQTT_Pass}, qos=2)
+            publish.single(MQTTPublishPath, jsonData, hostname=MQTT_Host, port=MQTT_Port, client_id=client_id, transport="tcp", auth={'username': MQTT_User, 'password': MQTT_Pass}, qos=2, keepalive=2)
             publish.disconnect()
         else:
             #print "MQTT with no auth"
-            publish.single(MQTTPublishPath, jsonData, hostname=MQTT_Host, port=MQTT_Port, client_id=client_id, transport="tcp", qos=2)
+            publish.single(MQTTPublishPath, jsonData, hostname=MQTT_Host, port=MQTT_Port, client_id=client_id, transport="tcp", qos=2, keepalive=2)
             publish.disconnect()
         GPIO.output(Led_Pin, False)
         time.sleep(0.3)
@@ -267,11 +267,11 @@ def PublishThisSystem(jsonData, itemName):
     try:
         if (MQTT_User is not None and MQTT_Pass is not None):
             #print "MQTT with auth"
-            publish.single(MQTTPublishPath, jsonData, hostname=MQTT_Host, port=MQTT_Port, client_id=client_id, transport="tcp", auth={'username': MQTT_User, 'password': MQTT_Pass}, qos=2)
+            publish.single(MQTTPublishPath, jsonData, hostname=MQTT_Host, port=MQTT_Port, client_id=client_id, transport="tcp", auth={'username': MQTT_User, 'password': MQTT_Pass}, qos=2, keepalive=2)
             publish.disconnect()
         else:
             #print "MQTT with no auth"
-            publish.single(MQTTPublishPath, jsonData, hostname=MQTT_Host, port=MQTT_Port, client_id=client_id, transport="tcp", qos=2)
+            publish.single(MQTTPublishPath, jsonData, hostname=MQTT_Host, port=MQTT_Port, client_id=client_id, transport="tcp", qos=2, keepalive=2)
             publish.disconnect()
         PrintThis("Sensor " + str(itemName) + " SensorData : " + jsonData)
         PrintThis("Sensor " + str(itemName)  + " Succefully published to MQTT - Address " + MQTT_Host + ":" + str(MQTT_Port) + " to " + MQTTPublishPath)
