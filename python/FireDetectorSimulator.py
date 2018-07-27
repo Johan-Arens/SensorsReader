@@ -27,8 +27,11 @@ MQTT_Port                = 1883
 MQTT_User                = ""
 MQTT_Pass                = ""
 MQTT_Path_Prepend        = "Sensors/"
+MQTTPublishPath          = ''
 Refresh = 10
 Led_Pin                  = 18
+SensorReader_Location    = "Room508"
+SensorReader_Name        = "SensorsReaderDev2"
 
 try:
     if sys.argv[1] is not None:
