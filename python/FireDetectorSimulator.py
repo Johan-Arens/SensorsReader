@@ -28,7 +28,7 @@ MQTT_User                = ""
 MQTT_Pass                = ""
 MQTT_Path_Prepend        = "Sensors/"
 Refresh = 10
-LED_pin                  = 18
+Led_pin                  = 18
 
 try:
     if sys.argv[1] is not None:
