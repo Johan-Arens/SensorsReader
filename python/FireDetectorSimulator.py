@@ -46,7 +46,7 @@ except:
 
 def SimulatorWorker():
     t_end = time.time() + 1000
-    Global Refresh
+    global Refresh
 
     while time.time() < t_end:
         GPIO.setwarnings(False)
