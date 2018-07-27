@@ -45,7 +45,9 @@ except:
     printToConsole=False
 
 def SimulatorWorker():
-    t_end = time.time() + 59
+    t_end = time.time() + 1000
+    Global Refresh
+
     while time.time() < t_end:
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
@@ -57,11 +59,25 @@ def SimulatorWorker():
             "Sensor_Address": "abc-123-abc",
             "Sensor_Location": "Room509",
             "Sensor_Type": "FireDetector",
-            "Message": "No Fire Detected",
+            "Message": "No_Fire_Detected",
             "Timestamp": int(time.time())
         })
         PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
-        time.sleep(5)
+        GPIO.output(Led_Pin, False)
+        if os.path.exists("/tmp/LowBattery"):
+            GPIO.output(Led_Pin, True)
+            outputJson = json.dumps({
+                "Sensor_Name": 'SC-FD2334-K9',
+                "Sensor_Address": "abc-123-abc",
+                "Sensor_Location": "Room509",
+                "Sensor_Type": "FireDetector",
+                "Message": "Low_Battery",
+                "Timestamp": int(time.time())
+            })
+            PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
+            GPIO.output(Led_Pin, False)
+
+        time.sleep(Refresh)
 
 def PrintThis (StringToPrint):
    global printToConsole
