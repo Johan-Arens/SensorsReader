@@ -24,13 +24,13 @@ import psutil
 
 MQTT_Host                = "10.9.29.116"
 MQTT_Port                = 1883
-MQTT_User                = ""
-MQTT_Pass                = ""
+MQTT_User                = None
+MQTT_Pass                = None
 MQTT_Path_Prepend        = "Sensors/"
 MQTTPublishPath          = ''
 Refresh = 10
 Led_Pin                  = 18
-SensorReader_Location    = "Room508"
+SensorReader_Location    = "Room509"
 SensorReader_Name        = "SensorsReaderDev2"
 
 try:
