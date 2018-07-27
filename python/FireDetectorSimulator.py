@@ -28,6 +28,8 @@ MQTT_User                = ""
 MQTT_Pass                = ""
 MQTT_Path_Prepend        = "Sensors/"
 Refresh = 10
+LED_pin                  = 18
+
 try:
     if sys.argv[1] is not None:
       if sys.argv[1] == "debug":
