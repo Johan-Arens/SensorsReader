@@ -66,7 +66,7 @@ def SimulatorWorker():
             })
             PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
             GPIO.output(Led_Pin, False)
-        else
+        else:
             outputJson = json.dumps({
                 "Sensor_Name": 'SC-FD2334-K9',
                 "Sensor_Address": "abc-123-abc",
