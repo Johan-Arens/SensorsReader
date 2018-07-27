@@ -146,9 +146,9 @@ t_end = time.time() + 59
 current = 1
 jobs = []
 
-PrintThis( "Sensor " + 1 + " Name: SC-FD2334-K9")
-PrintThis( "Sensor " + 1 + " Location: Room509")
-PrintThis( "Sensor " + 1 + " Address: abc-123-abc")
-PrintThis( "Sensor " + 1 + " Type: FireDetector")
+PrintThis( "Sensor " + str(1) + " Name: SC-FD2334-K9")
+PrintThis( "Sensor " + str(1) + " Location: Room509")
+PrintThis( "Sensor " + str(1) + " Address: abc-123-abc")
+PrintThis( "Sensor " + str(1) + " Type: FireDetector")
 
 SensorWorker()
