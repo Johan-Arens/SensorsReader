@@ -55,7 +55,7 @@ def SimulatorWorker():
             "Message": "No Fire Detected",
             "Timestamp": int(time.time())
         })
-        PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509"):
+        PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
         time.sleep(5)
 
 def PrintThis (StringToPrint):
