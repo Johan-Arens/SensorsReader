@@ -151,4 +151,4 @@ PrintThis( "Sensor " + str(1) + " Location: Room509")
 PrintThis( "Sensor " + str(1) + " Address: abc-123-abc")
 PrintThis( "Sensor " + str(1) + " Type: FireDetector")
 
-SensorWorker()
+SimulatorWorker()
