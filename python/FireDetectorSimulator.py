@@ -54,16 +54,29 @@ def SimulatorWorker():
 
         GPIO.setup(Led_Pin, GPIO.OUT)
         GPIO.output(Led_Pin, True)
-        outputJson = json.dumps({
-            "Sensor_Name": 'SC-FD2334-K9',
-            "Sensor_Address": "abc-123-abc",
-            "Sensor_Location": "Room509",
-            "Sensor_Type": "FireDetector",
-            "Message": "No_Fire_Detected",
-            "Timestamp": int(time.time())
-        })
-        PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
-        GPIO.output(Led_Pin, False)
+        if os.path.exists("/tmp/FireDetected"):
+            GPIO.output(Led_Pin, True)
+            outputJson = json.dumps({
+                "Sensor_Name": 'SC-FD2334-K9',
+                "Sensor_Address": "abc-123-abc",
+                "Sensor_Location": "Room509",
+                "Sensor_Type": "FireDetector",
+                "Message": "Fire_Detected",
+                "Timestamp": int(time.time())
+            })
+            PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
+            GPIO.output(Led_Pin, False)
+        else
+            outputJson = json.dumps({
+                "Sensor_Name": 'SC-FD2334-K9',
+                "Sensor_Address": "abc-123-abc",
+                "Sensor_Location": "Room509",
+                "Sensor_Type": "FireDetector",
+                "Message": "No_Fire_Detected",
+                "Timestamp": int(time.time())
+            })
+            PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
+            GPIO.output(Led_Pin, False)
         if os.path.exists("/tmp/LowBattery"):
             GPIO.output(Led_Pin, True)
             outputJson = json.dumps({
@@ -72,6 +85,7 @@ def SimulatorWorker():
                 "Sensor_Location": "Room509",
                 "Sensor_Type": "FireDetector",
                 "Message": "Low_Battery",
+                "Battery_Level_Percent": "5",
                 "Timestamp": int(time.time())
             })
             PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
