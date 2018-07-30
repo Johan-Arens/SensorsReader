@@ -59,7 +59,7 @@ def SimulatorWorker():
                 "Timestamp": int(time.time())
             })
             PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
-            GPIO.output(Led_Pin, False)
+
         else:
             outputJson = json.dumps({
                 "Sensor_Name": 'SC-FD2334-K9',
@@ -70,9 +70,9 @@ def SimulatorWorker():
                 "Timestamp": int(time.time())
             })
             PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
-            GPIO.output(Led_Pin, False)
+
         if os.path.exists("/tmp/LowBattery"):
-            GPIO.output(Led_Pin, True)
+
             outputJson = json.dumps({
                 "Sensor_Name": 'SC-FD2334-K9',
                 "Sensor_Address": "abc-123-abc",
@@ -83,7 +83,7 @@ def SimulatorWorker():
                 "Timestamp": int(time.time())
             })
             PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
-            GPIO.output(Led_Pin, False)
+
 
         time.sleep(Refresh)
 
