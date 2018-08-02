@@ -241,7 +241,7 @@ else:
         print "<br>" 
   else:
     SensorNumber = 1
-    for SensorNumber in range(1,8):  
+    for SensorNumber in range(1,10):
       print "Sensor " + str(SensorNumber) + " Name : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Name]\" value = \"\"> <br>"
       print "Sensor " + str(SensorNumber) + " Location : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Location]\" value = \"\"> <br>"
       print "Sensor " + str(SensorNumber) + " Address : <input type = \"text\" name = \"Sensors[" + str(SensorNumber) + "][Sensor_Address]\" value = \"\"> <i>GPIO Pin or 1-Wire bus address</i><br>"
