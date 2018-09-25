@@ -90,7 +90,7 @@ def SensorWorker(SensorNumber, SensorName, SensorLocation, SensorAddress, Sensor
            SensorDataFile = oneWirePath + SensorAddress + "/w1_slave"
            GoodRead = false
            ReadCount = 0
-           while GoodRead == false
+           while GoodRead == false:
                with open(SensorDataFile ,'r') as SensorDataFileRead:
                 SensorDataRead = SensorDataFileRead.readlines()
                 SensorDataFileRead.close()
