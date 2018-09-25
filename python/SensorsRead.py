@@ -103,6 +103,7 @@ def SensorWorker(SensorNumber, SensorName, SensorLocation, SensorAddress, Sensor
                   SensorDataReadLines += 1
                 if temperature != 0:
                     GoodRead=true
+                    PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - Good value - pass #" + str(ReadCount))
                 else:
                     if ReadCount > 3:
                         GoodRead = true
