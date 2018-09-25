@@ -88,16 +88,28 @@ def SensorWorker(SensorNumber, SensorName, SensorLocation, SensorAddress, Sensor
          #print "Trying 1-wire..."
          try:
            SensorDataFile = oneWirePath + SensorAddress + "/w1_slave"
-           with open(SensorDataFile ,'r') as SensorDataFileRead:
-            SensorDataRead = SensorDataFileRead.readlines()
-            SensorDataFileRead.close()
-            SensorDataReadLines=0
-            while SensorDataReadLines < len(SensorDataRead):
-              if "t=" in SensorDataRead[SensorDataReadLines]:
-                discard, temperature = SensorDataRead[SensorDataReadLines].split("t=")
-                temperature = float(temperature) / 1000.0
-                break
-              SensorDataReadLines += 1
+           GoodRead = false
+           ReadCount = 0
+           while GoodRead == false
+               with open(SensorDataFile ,'r') as SensorDataFileRead:
+                SensorDataRead = SensorDataFileRead.readlines()
+                SensorDataFileRead.close()
+                SensorDataReadLines=0
+                while SensorDataReadLines < len(SensorDataRead):
+                  if "t=" in SensorDataRead[SensorDataReadLines]:
+                    discard, temperature = SensorDataRead[SensorDataReadLines].split("t=")
+                    temperature = float(temperature) / 1000.0
+                    break
+                  SensorDataReadLines += 1
+                if temperature != 0:
+                    GoodRead=true
+                else:
+                    if ReadCount > 3:
+                        GoodRead = true
+                        temperature = "error"
+                    else:
+                        time.sleep(2)
+                ReadCount += 1
 
          except:
              PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - timeout - no value")
