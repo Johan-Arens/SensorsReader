@@ -107,7 +107,9 @@ def SensorWorker(SensorNumber, SensorName, SensorLocation, SensorAddress, Sensor
                     if ReadCount > 3:
                         GoodRead = true
                         temperature = "error"
+                        PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - bad value - giving up after pass #" + str(ReadCount))
                     else:
+                        PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - bad value - retrying - pass #" + str(ReadCount) )
                         time.sleep(2)
                 ReadCount += 1
 
