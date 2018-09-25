@@ -88,9 +88,9 @@ def SensorWorker(SensorNumber, SensorName, SensorLocation, SensorAddress, Sensor
          #print "Trying 1-wire..."
          try:
            SensorDataFile = oneWirePath + SensorAddress + "/w1_slave"
-           GoodRead = false
+           GoodRead = False
            ReadCount = 0
-           while GoodRead == false:
+           while GoodRead == False:
                with open(SensorDataFile ,'r') as SensorDataFileRead:
                 SensorDataRead = SensorDataFileRead.readlines()
                 SensorDataFileRead.close()
@@ -102,11 +102,11 @@ def SensorWorker(SensorNumber, SensorName, SensorLocation, SensorAddress, Sensor
                     break
                   SensorDataReadLines += 1
                 if temperature != 0:
-                    GoodRead=true
+                    GoodRead=True
                     PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - Good value - pass #" + str(ReadCount))
                 else:
                     if ReadCount > 3:
-                        GoodRead = true
+                        GoodRead = True
                         temperature = "error"
                         PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - bad value - giving up after pass #" + str(ReadCount))
                     else:
