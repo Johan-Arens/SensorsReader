@@ -86,38 +86,40 @@ def SensorWorker(SensorNumber, SensorName, SensorLocation, SensorAddress, Sensor
 
       if SensorType == "1-Wire":
          #print "Trying 1-wire..."
-         try:
-           SensorDataFile = oneWirePath + SensorAddress + "/w1_slave"
-           GoodRead = False
-           ReadCount = 0
-           while GoodRead == False:
-               with open(SensorDataFile ,'r') as SensorDataFileRead:
-                SensorDataRead = SensorDataFileRead.readlines()
-                SensorDataFileRead.close()
-                SensorDataReadLines=0
-                while SensorDataReadLines < len(SensorDataRead):
-                  if "t=" in SensorDataRead[SensorDataReadLines]:
-                    discard, temperature = SensorDataRead[SensorDataReadLines].split("t=")
-                    temperature = float(temperature) / 1000.0
-                    break
-                  SensorDataReadLines += 1
-                if temperature != 0:
-                    GoodRead=True
-                    PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - Good value - pass #" + str(ReadCount))
-                else:
-                    if ReadCount > 3:
-                        GoodRead = True
-                        temperature = "error"
-                        PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - bad value - giving up after pass #" + str(ReadCount))
-                    else:
-                        PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - bad value - retrying - pass #" + str(ReadCount) )
-                        time.sleep(2)
-                ReadCount += 1
+         GoodRead = False
+         ReadCount = 0
+         while GoodRead == False:
+             try:
+               SensorDataFile = oneWirePath + SensorAddress + "/w1_slave"
 
-         except:
-             PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - timeout - no value")
+                   with open(SensorDataFile ,'r') as SensorDataFileRead:
+                    SensorDataRead = SensorDataFileRead.readlines()
+                    SensorDataFileRead.close()
+                    SensorDataReadLines=0
+                    while SensorDataReadLines < len(SensorDataRead):
+                      if "t=" in SensorDataRead[SensorDataReadLines]:
+                        discard, temperature = SensorDataRead[SensorDataReadLines].split("t=")
+                        temperature = float(temperature) / 1000.0
+                        break
+                      SensorDataReadLines += 1
+                    if temperature != 0:
+                        GoodRead=True
+                        PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - Good value - pass #" + str(ReadCount))
+                    else:
+                        if ReadCount > 3:
+                            GoodRead = True
+                            temperature = "error"
+                            PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - bad value - giving up after pass #" + str(ReadCount))
+                        else:
+                            PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - bad value - retrying - pass #" + str(ReadCount) )
+                            time.sleep(2)
+             except:
+                 PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - timeout - no value")
+                 temperature = "error"
+             ReadCount += 1
          if temperature is None:
              PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - timeout - no value")
+             temperature = "error"
          else:
             #print('Temp={0:0.1f}*  Humidity={1:0.1f}%'.format(temperature, humidity))
             outputJson=json.dumps({
