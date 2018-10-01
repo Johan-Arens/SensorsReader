@@ -114,8 +114,14 @@ def SensorWorker(SensorNumber, SensorName, SensorLocation, SensorAddress, Sensor
                         PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - bad value - retrying - pass #" + str(ReadCount) )
                         time.sleep(2)
              except:
-                 PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - timeout - no value")
-                 temperature = "error"
+                 if ReadCount > 3:
+                     GoodRead = True
+                     temperature = "error"
+                     PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - bad value - giving up after pass #" + str(ReadCount))
+                     temperature = "error"
+                 else:
+                     PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - bad value - retrying - pass #" + str(ReadCount))
+                     time.sleep(2)
              ReadCount += 1
          if temperature is None:
              PrintThis("Sensor " + SensorNumber + " " + SensorType + str(SensorAddress) + " - timeout - no value")
