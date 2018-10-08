@@ -55,6 +55,11 @@ def SimulatorWorker():
 
         GPIO.setup(Led_Pin, GPIO.OUT)
         GPIO.output(Led_Pin, True)
+        if lowBatteryDetected == True:
+            batteryLevel = 5
+        else:
+            batteryLevel = 100
+
         if os.path.exists("/tmp/FireDetected"):
             GPIO.output(Led_Pin, True)
             outputJson = json.dumps({
@@ -63,7 +68,7 @@ def SimulatorWorker():
                 "Sensor_Location": "Room509",
                 "Sensor_Type": "FireDetector",
                 "Message": "Fire_Detected",
-                "Battery_Level_Percent": "100",
+                "Battery_Level_Percent": str(batteryLevel),
                 "Timestamp": int(time.time())
             })
             PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
@@ -78,7 +83,7 @@ def SimulatorWorker():
                     "Sensor_Location": "Room509",
                     "Sensor_Type": "FireDetector",
                     "Message": "Fire_Detected_Cleared",
-                    "Battery_Level_Percent": "100",
+                    "Battery_Level_Percent": str(batteryLevel),
                     "Timestamp": int(time.time())
                 })
             else:
@@ -88,7 +93,7 @@ def SimulatorWorker():
                     "Sensor_Location": "Room509",
                     "Sensor_Type": "FireDetector",
                     "Message": "No_Fire_Detected",
-                    "Battery_Level_Percent": "100",
+                    "Battery_Level_Percent": str(batteryLevel),
                     "Timestamp": int(time.time())
                 })
 
