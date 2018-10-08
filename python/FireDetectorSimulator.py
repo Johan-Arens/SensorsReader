@@ -96,7 +96,6 @@ def SimulatorWorker():
                     "Battery_Level_Percent": str(batteryLevel),
                     "Timestamp": int(time.time())
                 })
-
             PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
             GPIO.output(Led_Pin, False)
         if os.path.exists("/tmp/LowBattery"):
