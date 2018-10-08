@@ -22,7 +22,7 @@ import psutil
 
 
 
-MQTT_Host                = "10.9.29.116"
+MQTT_Host                = "10.9.58.242"
 MQTT_Port                = 1883
 MQTT_User                = None
 MQTT_Pass                = None
@@ -63,6 +63,7 @@ def SimulatorWorker():
                 "Sensor_Location": "Room509",
                 "Sensor_Type": "FireDetector",
                 "Message": "Fire_Detected",
+                "Battery_Level_Percent": "100",
                 "Timestamp": int(time.time())
             })
             PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
@@ -70,24 +71,17 @@ def SimulatorWorker():
             GPIO.output(Led_Pin, False)
         else:
             if fireDetected == True:
-                outputJson = json.dumps({
-                    "Sensor_Name": 'SC-FD2334-K9',
-                    "Sensor_Address": "abc-123-abc",
-                    "Sensor_Location": "Room509",
-                    "Sensor_Type": "FireDetector",
-                    "Message": "Fire_Detected_Cleared",
-                    "Timestamp": int(time.time())
-                })
                 fireDetected = False
-            else:
-                outputJson = json.dumps({
+
+            outputJson = json.dumps({
                     "Sensor_Name": 'SC-FD2334-K9',
                     "Sensor_Address": "abc-123-abc",
                     "Sensor_Location": "Room509",
                     "Sensor_Type": "FireDetector",
                     "Message": "No_Fire_Detected",
+                    "Battery_Level_Percent": "100",
                     "Timestamp": int(time.time())
-                })
+            })
 
             PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
             GPIO.output(Led_Pin, False)
@@ -114,7 +108,7 @@ def SimulatorWorker():
                     "Sensor_Location": "Room509",
                     "Sensor_Type": "FireDetector",
                     "Message": "Normal_Battery",
-                    "Battery_Level_Percent": "5",
+                    "Battery_Level_Percent": "100",
                     "Timestamp": int(time.time())
                 })
                 lowBatteryDetected = False
