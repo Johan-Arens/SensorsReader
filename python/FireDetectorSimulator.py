@@ -47,7 +47,8 @@ except:
 def SimulatorWorker():
     t_end = time.time() + 1000
     global Refresh
-
+    lowBatteryDetected = False
+    fireDetected = False
     while time.time() < t_end:
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
@@ -65,16 +66,29 @@ def SimulatorWorker():
                 "Timestamp": int(time.time())
             })
             PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
+            fireDetected = True
             GPIO.output(Led_Pin, False)
         else:
-            outputJson = json.dumps({
-                "Sensor_Name": 'SC-FD2334-K9',
-                "Sensor_Address": "abc-123-abc",
-                "Sensor_Location": "Room509",
-                "Sensor_Type": "FireDetector",
-                "Message": "No_Fire_Detected",
-                "Timestamp": int(time.time())
-            })
+            if fireDetected == True:
+                outputJson = json.dumps({
+                    "Sensor_Name": 'SC-FD2334-K9',
+                    "Sensor_Address": "abc-123-abc",
+                    "Sensor_Location": "Room509",
+                    "Sensor_Type": "FireDetector",
+                    "Message": "Fire_Detected_Cleared",
+                    "Timestamp": int(time.time())
+                })
+                fireDetected = False
+            else:
+                outputJson = json.dumps({
+                    "Sensor_Name": 'SC-FD2334-K9',
+                    "Sensor_Address": "abc-123-abc",
+                    "Sensor_Location": "Room509",
+                    "Sensor_Type": "FireDetector",
+                    "Message": "No_Fire_Detected",
+                    "Timestamp": int(time.time())
+                })
+
             PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
             GPIO.output(Led_Pin, False)
         if os.path.exists("/tmp/LowBattery"):
@@ -88,8 +102,25 @@ def SimulatorWorker():
                 "Battery_Level_Percent": "5",
                 "Timestamp": int(time.time())
             })
+            lowBatteryDetected = True
             PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
             GPIO.output(Led_Pin, False)
+        else:
+            GPIO.output(Led_Pin, True)
+            if lowBatteryDetected == True:
+                outputJson = json.dumps({
+                    "Sensor_Name": 'SC-FD2334-K9',
+                    "Sensor_Address": "abc-123-abc",
+                    "Sensor_Location": "Room509",
+                    "Sensor_Type": "FireDetector",
+                    "Message": "Normal_Battery",
+                    "Battery_Level_Percent": "5",
+                    "Timestamp": int(time.time())
+                })
+                lowBatteryDetected = False
+            PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
+            GPIO.output(Led_Pin, False)
+
 
         time.sleep(Refresh)
 
