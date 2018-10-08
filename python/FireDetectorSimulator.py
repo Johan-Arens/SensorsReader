@@ -22,7 +22,7 @@ import psutil
 
 
 
-MQTT_Host                = "10.9.58.242"
+MQTT_Host                = "10.9.58.227"
 MQTT_Port                = 1883
 MQTT_User                = None
 MQTT_Pass                = None
@@ -72,8 +72,17 @@ def SimulatorWorker():
         else:
             if fireDetected == True:
                 fireDetected = False
-
-            outputJson = json.dumps({
+                outputJson = json.dumps({
+                    "Sensor_Name": 'SC-FD2334-K9',
+                    "Sensor_Address": "abc-123-abc",
+                    "Sensor_Location": "Room509",
+                    "Sensor_Type": "FireDetector",
+                    "Message": "Fire_Detected_Cleared",
+                    "Battery_Level_Percent": "100",
+                    "Timestamp": int(time.time())
+                })
+            else:
+                outputJson = json.dumps({
                     "Sensor_Name": 'SC-FD2334-K9',
                     "Sensor_Address": "abc-123-abc",
                     "Sensor_Location": "Room509",
@@ -81,7 +90,7 @@ def SimulatorWorker():
                     "Message": "No_Fire_Detected",
                     "Battery_Level_Percent": "100",
                     "Timestamp": int(time.time())
-            })
+                })
 
             PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
             GPIO.output(Led_Pin, False)
@@ -193,7 +202,7 @@ def CleanUpOldProcess (scriptName):
 
 CleanUpOldProcess(sys.argv[0])
 configOK = False
-oneWirePath = "/sys/bus/w1/devices/"
+
 
 
 PrintThis ("Will loop every " + str(Refresh) + " sec for 60 sec")
