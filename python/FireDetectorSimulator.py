@@ -31,7 +31,7 @@ MQTTPublishPath          = ''
 Refresh = 10
 Led_Pin                  = 18
 SensorReader_Location    = "Room509"
-SensorReader_Name        = "SensorsReaderDev2"
+SensorReader_Name        = "FireDetector"
 
 try:
     if sys.argv[1] is not None:
