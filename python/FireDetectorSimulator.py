@@ -6,7 +6,7 @@
 #
 
 import sys
-import Adafruit_DHT
+#import Adafruit_DHT
 import json
 import socket
 import paho.mqtt.publish as publish
