@@ -155,7 +155,7 @@ def SimulatorWorker():
                 "Timestamp": int(time.time())
             })
             if NoVibrationDetected == False:
-                NoVibrationSent = True
+                NoVibrationDetected = True
                 PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
 
             GPIO.output(Led_Pin, False)
