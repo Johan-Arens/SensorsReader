@@ -127,7 +127,22 @@ def SimulatorWorker():
                 lowBatteryDetected = False
             PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
             GPIO.output(Led_Pin, False)
+        if os.path.exists("/tmp/VibrationDetected"):
+            GPIO.output(Led_Pin, True)
+            outputJson = json.dumps({
+                "Sensor_Name": 'SC-FD2334-K9',
+                "Sensor_Address": "abc-123-abc",
+                "Sensor_Location": "Room509",
+                "Sensor_Type": "FireDetector",
+                "Message": "Tampering_attempt_detected",
+                "Battery_Level_Percent": "100",
+                "Timestamp": int(time.time())
+            })
+            PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
+            GPIO.output(Led_Pin, False)
 
+            PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
+            GPIO.output(Led_Pin, False)
 
         time.sleep(Refresh)
 
