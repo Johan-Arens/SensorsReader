@@ -8,6 +8,7 @@ import socket
 import syslog
 import sys
 import psutil
+import datetime
 
 def CleanUpOldProcess (scriptName):
     for proc in psutil.process_iter():
@@ -75,7 +76,7 @@ while True:
 	else:
  	  open('/tmp/LowBattery', "a").close()
           lowBatteryState = True
-          PrintTHis('Low Battery on')
+          PrintThis('Low Battery on')
     # 16 = large button
     if input_stateGPIO16 == False:
         if fireDetectedState == True:
