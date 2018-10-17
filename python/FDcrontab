@@ -1,0 +1,2 @@
+*/5 * * * * /home/pi/scripts/SensorsReader/python/FDSimulator.py
+*/5 * * * * /home/pi/scripts/SensorsReader/python/FDbuttons.py
