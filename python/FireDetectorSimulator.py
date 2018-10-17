@@ -61,6 +61,20 @@ def SimulatorWorker():
         else:
             batteryLevel = 100
 
+        if os.path.exists("/tmp/Shutdown"):
+            outputJson = json.dumps({
+                "Sensor_Name": 'SC-FD2334-K9',
+                "Sensor_Address": "abc-123-abc",
+                "Sensor_Location": "Room509",
+                "Sensor_Type": "FireDetector",
+                "Message": "Shutdown",
+                "Battery_Level_Percent": str(batteryLevel),
+                "Timestamp": int(time.time())
+            })
+            PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
+            fireDetected = True
+            GPIO.output(Led_Pin, False)
+
         if os.path.exists("/tmp/FireDetected"):
             GPIO.output(Led_Pin, True)
             outputJson = json.dumps({
