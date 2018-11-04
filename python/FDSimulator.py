@@ -56,10 +56,7 @@ def SimulatorWorker():
 
         GPIO.setup(Led_Pin, GPIO.OUT)
         GPIO.output(Led_Pin, True)
-        if lowBatteryDetected == True:
-            batteryLevel = 5
-        else:
-            batteryLevel = 100
+
 
         if os.path.exists("/tmp/LowBattery"):
             GPIO.output(Led_Pin, True)
@@ -72,7 +69,7 @@ def SimulatorWorker():
                 "Battery_Level_Percent": "5",
                 "Timestamp": int(time.time())
             })
-            lowBatteryDetected = True
+            batteryLevel = 5
             PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
             GPIO.output(Led_Pin, False)
         else:
@@ -87,7 +84,7 @@ def SimulatorWorker():
                     "Battery_Level_Percent": "100",
                     "Timestamp": int(time.time())
                 })
-                lowBatteryDetected = False
+            batteryLevel = 100
             PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
             GPIO.output(Led_Pin, False)
 
