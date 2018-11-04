@@ -138,7 +138,7 @@ def SimulatorWorker():
                 "Sensor_Location": "Room509",
                 "Sensor_Type": "FireDetector",
                 "Message": "Tampering_attempt_detected",
-                "Battery_Level_Percent": "100",
+                "Battery_Level_Percent": str(batteryLevel),
                 "Timestamp": int(time.time())
             })
             PublishThis(outputJson, 1, "FireDetector", "SC-FD2334-K9", "Room509")
@@ -153,7 +153,7 @@ def SimulatorWorker():
                 "Sensor_Location": "Room509",
                 "Sensor_Type": "FireDetector",
                 "Message": "Tampering_attempt_stopped",
-                "Battery_Level_Percent": "100",
+                "Battery_Level_Percent": str(batteryLevel),
                 "Timestamp": int(time.time())
             })
             if NoVibrationDetected == False:
